@@ -1,0 +1,6 @@
+application:
+  rackup: config.ru
+
+web:
+  context: /stompbox
+
