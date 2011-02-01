@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'sinatra'
 require 'haml'
-require 'json'
+require 'sass'
 
 require 'models/push'
 
@@ -16,4 +16,14 @@ end
 get '/' do
   @pushes = Push.all
   haml :index
+end
+
+
+# Stylesheets
+get '/html5reset.css' do
+  sass :html5reset
+end
+
+get '/styles.css' do
+  scss :styles
 end

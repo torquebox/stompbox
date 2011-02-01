@@ -1,4 +1,15 @@
 %h1 StompBox Hello World
 - if @pushes
-  - @pushes.each do |push|
-    %pre=push.payload
+  .push
+    %table
+      %tr
+        %th Date
+        %th Commit Hash
+        %th Repository
+        %th Description
+      - @pushes.each do |push|
+        %tr
+          %td=push.created_at
+          %td=push['after']
+          %td="#{push['repository']} (#{push['repository']['url']})"
+          %td=push['description']
