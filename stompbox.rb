@@ -5,6 +5,7 @@ require 'sass'
 
 require 'models/push'
 
+# Post a deployment
 post '/' do
   if params[:payload]
     push = Push.create(:payload=>params[:payload], :created_at=>Time.now)
@@ -13,8 +14,9 @@ post '/' do
   redirect '/'
 end
 
+# List all deployments
 get '/' do
-  @pushes = Push.all
+  @pushes = Push.all(:order => [ :created_at.desc ])
   haml :index
 end
 
