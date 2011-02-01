@@ -5,6 +5,7 @@
       %tr
         %th.side &nbsp;
         %th Date
+        %th Status
         %th Commit Hash
         %th Repository
         %th Branch
@@ -12,14 +13,17 @@
         %tr
           %th.side Deployment
           %td=push.created_at
+          %td=status(push)
           %td=push['after']
           %td
+            =push['repository']['name']
+            \:
             %a{:href=>push['repository']['url']} 
               =push['repository']['url']
           %td=push['ref']
         %tr
           %th.side Commits
-          %td{:colspan=>4}
+          %td{:colspan=>5}
             - push['commits'].each do |commit|
               %ul
                 %li=commit['author']['name']
@@ -29,4 +33,4 @@
                 %li=commit['timestamp']
                 %li=commit['message']
         %tr.spacer
-          %td{:colspan=>5} 
+          %td{:colspan=>6} 
