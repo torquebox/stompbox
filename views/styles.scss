@@ -29,6 +29,16 @@
   }
   td {
     border: #ddd 1px solid;
+    ul {
+      border-bottom: #ddd 1px dotted;
+      padding-bottom: 10px;
+      margin-bottom: 10px;
+      list-style: none;
+      li {
+        list-style: none;
+        padding: 2px;
+      }
+    }
   }
 }
 

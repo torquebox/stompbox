@@ -7,7 +7,6 @@
         %th Commit Hash
         %th Repository
         %th Branch
-        %th Description
       - @pushes.each do |push|
         %tr
           %td=push.created_at
@@ -16,4 +15,14 @@
             %a{:href=>push['repository']['url']} 
               =push['repository']['url']
           %td=push['ref']
-          %td=push['description']
+        %tr
+          %td Commits
+          %td{:colspan=>3}
+            - push['commits'].each do |commit|
+              %ul
+                %li=commit['author']['name']
+                %li
+                  %a{:href=>commit['url']} 
+                    =commit['id']
+                %li=commit['timestamp']
+                %li=commit['message']
