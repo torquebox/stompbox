@@ -1,14 +1,16 @@
-%h1 StompBox Hello World
+%h1 Stomp Box :: Deployments
 - if @pushes
   .push
     %table
       %tr
+        %th.side &nbsp;
         %th Date
         %th Commit Hash
         %th Repository
         %th Branch
       - @pushes.each do |push|
         %tr
+          %th.side Deployment
           %td=push.created_at
           %td=push['after']
           %td
@@ -16,8 +18,8 @@
               =push['repository']['url']
           %td=push['ref']
         %tr
-          %td Commits
-          %td{:colspan=>3}
+          %th.side Commits
+          %td{:colspan=>4}
             - push['commits'].each do |commit|
               %ul
                 %li=commit['author']['name']
@@ -26,5 +28,5 @@
                     =commit['id']
                 %li=commit['timestamp']
                 %li=commit['message']
-      %tr.spacer
-        %td{:colspan=>4} 
+        %tr.spacer
+          %td{:colspan=>5} 

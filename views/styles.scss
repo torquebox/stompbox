@@ -22,10 +22,10 @@
     width: 20%;
   }
   th {
-    color: #fff;
-    background-color: #1e317f;
     text-align: center;
     font-size: 120%;
+    background-color: #fff;
+    color: #1e317f;
   }
   td {
     border: #ddd 1px solid;
@@ -42,6 +42,9 @@
   }
   tr.spacer td {
     background-color: #ddd;
+  }
+  th.side {
+    border-bottom: #ddd 1px solid;
   }
 }
 
