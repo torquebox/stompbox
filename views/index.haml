@@ -6,10 +6,14 @@
         %th Date
         %th Commit Hash
         %th Repository
+        %th Branch
         %th Description
       - @pushes.each do |push|
         %tr
           %td=push.created_at
           %td=push['after']
-          %td="#{push['repository']} (#{push['repository']['url']})"
+          %td
+            %a{:href=>push['repository']['url']} 
+              =push['repository']['url']
+          %td=push['ref']
           %td=push['description']
