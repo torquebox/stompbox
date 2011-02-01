@@ -15,3 +15,8 @@ gem 'rake'
 
 gem 'haml', '~>3.0'
 gem 'json_pure'
+
+gem 'dm-core'
+gem 'dm-postgres-adapter'
+gem 'dm-migrations'
+gem 'dm-timestamps'

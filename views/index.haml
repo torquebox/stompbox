@@ -1,2 +1,4 @@
 %h1 StompBox Hello World
-=@push.inspect
+- if @pushes
+  - @pushes.each do |push|
+    %pre=push.payload

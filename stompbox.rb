@@ -3,11 +3,17 @@ require 'sinatra'
 require 'haml'
 require 'json'
 
+require 'models/push'
+
 post '/' do
-  @push = params[:payload].nil? ? {:message=>"Empty payload"} : params[:payload]
-  haml :index
+  if params[:payload]
+    push = Push.create(:payload=>params[:payload], :created_at=>Time.now)
+    push.save if push
+  end
+  redirect '/'
 end
 
 get '/' do
-  "You only get POST, sucka"
+  @pushes = Push.all
+  haml :index
 end
