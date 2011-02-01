@@ -4,14 +4,27 @@
   font-size: 12px;
 }
 
-.container h1 {
+.container h1, .container h2 {
   border-bottom: #999 1px dashed;
   margin-bottom: 15px;
   padding-bottom: 5px;
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 20px;
   color: #1e317f;
 }
+
+ul {
+  list-style: none;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  border-bottom: #ddd 1px dotted;
+  li {
+    list-stlye: none;
+    padding: 2px;
+  }
+}
+
+.container h1 { font-size: 20px; }
+.container h2 { font-size: 16px; }
 
 .container .push {
   font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospace;
@@ -29,16 +42,6 @@
   }
   td {
     border: #ddd 1px solid;
-    ul {
-      border-bottom: #ddd 1px dotted;
-      padding-bottom: 10px;
-      margin-bottom: 10px;
-      list-style: none;
-      li {
-        list-style: none;
-        padding: 2px;
-      }
-    }
   }
   tr.spacer td {
     background-color: #ddd;

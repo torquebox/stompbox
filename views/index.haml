@@ -1,4 +1,12 @@
 %h1 Stomp Box :: Deployments
+.config
+  %h2 Repositories Managed
+  .repos
+    %ul
+      -repositories.keys.each do |key|
+        %li="#{key} #{repositories[key]['branch']}"
+
+
 - if @pushes
   .push
     %table

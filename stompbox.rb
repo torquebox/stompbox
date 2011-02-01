@@ -6,17 +6,17 @@ require 'yaml'
 
 require 'models/push'
 
-before do
-  @repositories = YAML::load(File.open("config/repositories.yml"))
-end
-
 helpers do
   def status(push)
-    if (@repositories.has_key? push['repository']['name'])
+    if (repositories.has_key? push['repository']['name'])
       "Pending"
     else
       "This repository will NOT be deployed"
     end
+  end
+
+  def repositories
+    YAML::load(File.open("config/repositories.yml"))
   end
 end
 
