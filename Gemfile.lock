@@ -27,6 +27,7 @@ GEM
       do_jdbc (= 0.10.3)
       jdbc-postgres (>= 8.2)
     extlib (0.9.15)
+    git (1.2.5)
     haml (3.0.25)
     jdbc-postgres (9.0.801)
     json_pure (1.5.1)
@@ -60,6 +61,7 @@ DEPENDENCIES
   dm-observer
   dm-postgres-adapter
   dm-timestamps
+  git
   haml (~> 3.0)
   json_pure
   org.torquebox.rake-support (= 1.0.0.CR1)

@@ -1,6 +1,7 @@
 require 'json'
 require 'state_machine'
 require 'dm-migrations'
+require 'git'
 
 DataMapper::Logger.new($stdout, :debug)
 DataMapper.setup(:default, "postgres://stompbox:stompbox@localhost/stompbox")
@@ -48,13 +49,12 @@ class Push
     parse[property]
   end
 
-  def initialize
-    super() # required by state_machine
-  end
-
   # Use tcrawley's background stuff
   def background_deploy
     self.deploy
+    # Hack to avoid problems with github responses using git gem over https
+    repo = self['repository']['url'].sub('https', 'git')
+    git = Git.clone(repo, self['repository']['name'], :path=>config['deployments'])
     self.deployed
   end
 
@@ -67,6 +67,10 @@ class Push
   protected
   def parse
     @parsed_payload ||= JSON.parse(self.payload)
+  end
+
+  def config
+    YAML::load(File.open("config/stompbox.yml"))
   end
 
 end

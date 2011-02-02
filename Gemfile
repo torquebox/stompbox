@@ -23,3 +23,4 @@ gem 'dm-timestamps'
 gem 'dm-observer'
 
 gem 'state_machine'
+gem 'git'

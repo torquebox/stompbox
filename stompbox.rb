@@ -8,7 +8,7 @@ require 'models/push'
 
 helpers do
   def config
-    YAML::load(File.open("config/repositories.yml"))
+    YAML::load(File.open("config/stompbox.yml"))
   end
 end
 
