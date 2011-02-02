@@ -2,6 +2,7 @@
   padding: 20px;
   margin: auto;
   font-size: 12px;
+  font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospace;
 }
 
 .container h1, .container h2 {
@@ -27,7 +28,6 @@ ul {
 .container h2 { font-size: 16px; }
 
 .container .push {
-  font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospace;
   width: 100%;
   table { width: 100%; }
   th, td {

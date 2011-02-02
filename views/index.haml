@@ -1,10 +1,11 @@
 %h1 Stomp Box :: Deployments
 .config
-  %h2 Repositories Managed
   .repos
     %ul
       -repositories.keys.each do |key|
-        %li="#{key} #{repositories[key]['branch']}"
+        %li
+          %a{:href=>repositories[key]['url']} 
+            ="#{key} #{repositories[key]['branch']}"
 
 
 - if @pushes
@@ -19,9 +20,10 @@
         %th Branch
       - @pushes.each do |push|
         %tr
-          %th.side Deployment
-          %td=push.created_at
-          %td=status(push)
+          %th.side Push
+          %td{:style=>'font-size:90%'} 
+            =push.created_at.strftime("%B %d - %H:%M")
+          %td=push.status
           %td=push['after']
           %td
             =push['repository']['name']

@@ -20,3 +20,6 @@ gem 'dm-core'
 gem 'dm-postgres-adapter'
 gem 'dm-migrations'
 gem 'dm-timestamps'
+gem 'dm-observer'
+
+gem 'state_machine'
