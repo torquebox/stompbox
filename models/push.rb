@@ -13,19 +13,31 @@ class Push
   property :payload,    Text, :required => true, :lazy => false
   property :created_at, DateTime
 
-  state_machine :initial => :received do
+  state_machine :status, :initial => :received do
 
     event :deploy do
       # If any pushes are already deployed, undeploy them
       # Git the push
       # torquebox:archive & deploy
       # Write deployment date
-      transition all - :deployed => :deployed
+      transition all - :deployed => :deploying
+    end
+
+    event :deployed do
+      transition :deploying => :deployed
+    end
+
+    event :failed do
+      transition :deploying => :failed
     end
 
     event :undeploy do
       # Write undeployment date
-      transition :deployed => :undeployed
+      transition :deployed => :undeploying
+    end
+
+    event :undeployed do
+      transition :undeploying => :undeployed
     end
 
   end
@@ -36,10 +48,27 @@ class Push
     parse[property]
   end
 
+  def initialize
+    super() # required by state_machine
+  end
+
+  # Use tcrawley's background stuff
+  def background_deploy
+    self.deploy
+    self.deployed
+  end
+
+  # Use tcrawley's background stuff
+  def background_undeploy
+    self.undeploy!
+    self.undeployed!
+  end
+
   protected
   def parse
     @parsed_payload ||= JSON.parse(self.payload)
   end
+
 end
 
 DataMapper.auto_upgrade!

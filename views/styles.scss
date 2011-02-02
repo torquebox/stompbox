@@ -13,6 +13,16 @@
   color: #1e317f;
 }
 
+form {
+  display: inline-block;
+  input[type=submit] {
+    background-color: #ddd;
+    border: none;
+    cursor: pointer;
+    color: #1e317f;
+  }
+}
+
 ul {
   list-style: none;
   padding-bottom: 10px;
