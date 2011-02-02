@@ -55,6 +55,7 @@ class Push
     # Hack to avoid problems with github responses using git gem over https
     repo = self['repository']['url'].sub('https', 'git')
     git = Git.clone(repo, self['repository']['name'], :path=>config['deployments'])
+    git.reset_hard(self['after'])
     self.deployed
   end
 
