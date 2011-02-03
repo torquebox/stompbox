@@ -4,11 +4,13 @@ require 'haml'
 require 'sass'
 require 'yaml'
 
+require 'config/config'
 require 'models/push'
+require 'deployer'
 
 helpers do
-  def config
-    YAML::load(File.open("config/stompbox.yml"))
+  def config(key)
+    StompBox::Config.get(key)
   end
 end
 
@@ -23,14 +25,14 @@ end
 
 post '/deploy' do
   if (params[:id] && (push = Push.get(params[:id])))
-    push.background_deploy
+    Deployer.deploy(push)
   end
   redirect '/'
 end
 
 post '/undeploy' do
   if (params[:id] && (push = Push.get(params[:id])))
-    push.background_undeploy
+    push.undeploy
   end
   redirect '/'
 end

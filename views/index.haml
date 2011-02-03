@@ -2,10 +2,10 @@
 .config
   .repos
     %ul
-      -config['repositories'].keys.each do |key|
+      -config('repositories').keys.each do |key|
         %li
-          %a{:href=>config['repositories'][key]['url']} 
-            ="#{key} #{config['repositories'][key]['branch']}"
+          %a{:href=>config('repositories')[key]['url']} 
+            ="#{key} #{config('repositories')[key]['branch']}"
 
 
 - if @pushes

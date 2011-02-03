@@ -1,0 +1,5 @@
+deployments: /opt/deployments
+
+repositories:
+  github:
+    branch: master

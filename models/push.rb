@@ -1,7 +1,6 @@
 require 'json'
 require 'state_machine'
 require 'dm-migrations'
-require 'git'
 
 DataMapper::Logger.new($stdout, :debug)
 DataMapper.setup(:default, "postgres://stompbox:stompbox@localhost/stompbox")
@@ -14,14 +13,16 @@ class Push
   property :payload,    Text, :required => true, :lazy => false
   property :created_at, DateTime
 
+  attr_accessor :parsed_payload
+
   state_machine :status, :initial => :received do
 
     event :deploy do
-      # If any pushes are already deployed, undeploy them
-      # Git the push
-      # torquebox:archive & deploy
-      # Write deployment date
-      transition all - :deployed => :deploying
+      transition all - [:deploying, :deployed] => :deploying
+    end
+
+    before_transition :on => :deploy do 
+      Push.undeploy_everything
     end
 
     event :deployed do
@@ -29,40 +30,25 @@ class Push
     end
 
     event :failed do
-      transition :deploying => :failed
+      transition all => :failed
     end
 
     event :undeploy do
-      # Write undeployment date
-      transition :deployed => :undeploying
-    end
-
-    event :undeployed do
-      transition :undeploying => :undeployed
+      transition :deployed => :undeployed
     end
 
   end
-
-  attr_accessor :parsed_payload
 
   def [](property)
     parse[property]
   end
 
-  # Use tcrawley's background stuff
-  def background_deploy
-    self.deploy
-    # Hack to avoid problems with github responses using git gem over https
-    repo = self['repository']['url'].sub('https', 'git')
-    git = Git.clone(repo, self['repository']['name'], :path=>config['deployments'])
-    git.reset_hard(self['after'])
-    self.deployed
+  def repository_name
+    self['repository']['name']
   end
 
-  # Use tcrawley's background stuff
-  def background_undeploy
-    self.undeploy!
-    self.undeployed!
+  def self.deployed
+    Push.all(:status=>:deployed)
   end
 
   protected
@@ -70,8 +56,10 @@ class Push
     @parsed_payload ||= JSON.parse(self.payload)
   end
 
-  def config
-    YAML::load(File.open("config/stompbox.yml"))
+  def self.undeploy_everything
+    Push.deployed.each do |p|
+      p.undeploy
+    end
   end
 
 end
