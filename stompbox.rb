@@ -4,9 +4,9 @@ require 'haml'
 require 'sass'
 require 'yaml'
 
-require 'config/config'
-require 'models/push'
+require 'config/stompbox'
 require 'deployer'
+require 'models'
 
 helpers do
   def config(key)

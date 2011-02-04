@@ -1,9 +1,9 @@
 require 'json'
 require 'state_machine'
 require 'dm-migrations'
+require 'dm-timestamps'
 
-DataMapper::Logger.new($stdout, :debug)
-DataMapper.setup(:default, "postgres://stompbox:stompbox@localhost/stompbox")
+require 'config/stompbox'
 
 class Push
   include DataMapper::Resource
@@ -12,6 +12,8 @@ class Push
   property :status,     String
   property :payload,    Text, :required => true, :lazy => false
   property :created_at, DateTime
+
+  has n, :deployments
 
   attr_accessor :parsed_payload
 
@@ -40,10 +42,14 @@ class Push
   end
 
   def [](property)
-    parse[property]
+    parse_payload[property]
   end
 
-  def repository_name
+  def repo_url
+    self['repository']['url']
+  end
+
+  def repo_name
     self['repository']['name']
   end
 
@@ -52,7 +58,7 @@ class Push
   end
 
   protected
-  def parse
+  def parse_payload
     @parsed_payload ||= JSON.parse(self.payload)
   end
 
@@ -64,6 +70,16 @@ class Push
 
 end
 
-DataMapper.auto_upgrade!
+class Deployment
+  include DataMapper::Resource
 
+  property :id, Serial
+  property :created_at, DateTime
+  property :undeployed_at, DateTime
+
+  belongs_to :push
+
+end
+
+DataMapper.auto_upgrade!
 

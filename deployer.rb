@@ -1,6 +1,7 @@
 require 'git'
 require 'open3'
-require 'config/config'
+require 'models'
+require 'config/stompbox'
 
 class Deployer
 
@@ -26,6 +27,9 @@ class Deployer
       puts "Freezing gems"
       freeze_gems
       push.deployed
+      d = Deployment.create(:created_at=>Time.now, :push=>push)
+      d.save!
+      deploy
       puts "Deploy complete"
     rescue Exception => ex
       puts ex
@@ -35,7 +39,7 @@ class Deployer
 
   # Hack to avoid problems with github responses using git gem over https
   def git_url
-    push['repository']['url'].sub('https', 'git')
+    push.repo_url.sub('https', 'git')
   end
 
   def deployment_path
@@ -43,7 +47,7 @@ class Deployer
   end
 
   def repository_name
-    "#{push['repository']['name']}-#{commit_hash}"
+    "#{push.repo_name}-#{commit_hash}"
   end
 
   def root
