@@ -33,8 +33,13 @@
               %form{:method=>:post, :action=>'/undeploy'}
                 %input{:type=>:hidden, :name=>:id, :value=>push.id}
                 %input{:type=>:submit, :value=>:undeploy}
+              %span.deployment
+                %a{:href=>push.deployment.context}
+                  =push.deployment.context
 
-          %td=push['after']
+          %td
+            %a{:href=>push['compare']} 
+              =push.short_commit_hash
           %td
             =push['repository']['name']
             \:

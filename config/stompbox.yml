@@ -1,5 +1,5 @@
 deployments: /opt/deployments
 
 repositories:
-  github:
+  ballast-sinatra:
     branch: master

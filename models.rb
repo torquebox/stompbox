@@ -13,7 +13,7 @@ class Push
   property :payload,    Text, :required => true, :lazy => false
   property :created_at, DateTime
 
-  has n, :deployments
+  has 1, :deployment
 
   attr_accessor :parsed_payload
 
@@ -21,10 +21,6 @@ class Push
 
     event :deploy do
       transition all - [:deploying, :deployed] => :deploying
-    end
-
-    before_transition :on => :deploy do 
-      Push.undeploy_everything
     end
 
     event :deployed do
@@ -36,7 +32,11 @@ class Push
     end
 
     event :undeploy do
-      transition :deployed => :undeployed
+      transition :deployed => :undeploying
+    end
+
+    event :undeployed do
+      transition :undeploying => :undeployed
     end
 
   end
@@ -53,6 +53,10 @@ class Push
     self['repository']['name']
   end
 
+  def short_commit_hash
+    self['after'][0..6]
+  end
+
   def self.deployed
     Push.all(:status=>:deployed)
   end
@@ -62,18 +66,14 @@ class Push
     @parsed_payload ||= JSON.parse(self.payload)
   end
 
-  def self.undeploy_everything
-    Push.deployed.each do |p|
-      p.undeploy
-    end
-  end
-
 end
 
 class Deployment
   include DataMapper::Resource
 
   property :id, Serial
+  property :path, String
+  property :context, String
   property :created_at, DateTime
   property :undeployed_at, DateTime
 

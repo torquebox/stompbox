@@ -16,6 +16,21 @@ class Deployer
     Deployer.new(push).deploy
   end
 
+  def self.undeploy(push)
+    Deployer.new(push).undeploy
+  end
+
+  # Async
+  def undeploy
+    push.undeploy
+    remove_repo
+    if push.deployment
+      push.deployment.undeployed_at = Time.now
+      push.deployment.save
+    end
+    push.undeployed
+  end
+
   # This is the async method
   # Add tcrawley bg stuff here
   def deploy
@@ -25,7 +40,11 @@ class Deployer
       freeze_gems
       write_descriptor
       push.deployed
-      d = Deployment.create(:created_at=>Time.now, :push=>push)
+      d = Deployment.create(
+        :created_at=>Time.now, 
+        :push=>push,
+        :path=>deployment_path,
+        :context=>"/#{repository_name}")
       d.save!
       puts "Deploy complete"
     rescue Exception => ex
@@ -44,18 +63,20 @@ class Deployer
   end
 
   def repository_name
-    "#{push.repo_name}-#{commit_hash}"
+    "#{push.repo_name}-#{push.short_commit_hash}"
   end
 
   def root
     "#{deployment_path}/#{repository_name}"
   end
 
-  def commit_hash
-    push['after'][0..6]
-  end
-
   protected
+
+  def remove_repo
+    puts "Removing #{repository_name}"
+    TorqueBox::RakeUtils.undeploy( push.repo_name )
+    FileUtils.rm_rf( repository_name )
+  end
 
   def clone_repo
     puts "Cloning #{git_url} to #{repository_name}"

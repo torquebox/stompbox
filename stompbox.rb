@@ -32,7 +32,7 @@ end
 
 post '/undeploy' do
   if (params[:id] && (push = Push.get(params[:id])))
-    push.undeploy
+    Deployer.undeploy(push)
   end
   redirect '/'
 end
