@@ -13,6 +13,7 @@ class Deployer
   end
 
   def self.deploy(push)
+    Deployer.undeploy_branch(push.branch)
     Deployer.new(push).deploy
   end
 
@@ -20,16 +21,19 @@ class Deployer
     Deployer.new(push).undeploy
   end
 
-  # Async
+  def self.undeploy_branch(branch)
+    Deployment.all(:branch=>branch).each do |d|
+      Deployer.undeploy(d.push)
+    end
+  end
+
   def undeploy
     push.undeploy
-    remove_repo
-    if push.deployment
-      push.deployment.undeployed_at = Time.now
-      push.deployment.save
-    end
+    TorqueBox::RakeUtils.undeploy( repository_name )
+    remove_repo if ( File.exist?( root ) )
     push.undeployed
   end
+
 
   # This is the async method
   # Add tcrawley bg stuff here
@@ -43,9 +47,11 @@ class Deployer
       d = Deployment.create(
         :created_at=>Time.now, 
         :push=>push,
+        :branch=>push.branch,
         :path=>deployment_path,
         :context=>"/#{repository_name}")
       d.save!
+      push.save
       puts "Deploy complete"
     rescue Exception => ex
       puts ex
@@ -63,7 +69,7 @@ class Deployer
   end
 
   def repository_name
-    "#{push.repo_name}-#{push.short_commit_hash}"
+    @repo_name ||= push.master? ? push.repo_name : "#{push.repo_name}-#{push.branch}"
   end
 
   def root
@@ -74,12 +80,12 @@ class Deployer
 
   def remove_repo
     puts "Removing #{repository_name}"
-    TorqueBox::RakeUtils.undeploy( push.repo_name )
-    FileUtils.rm_rf( repository_name )
+    FileUtils.rm_rf( root )
   end
 
   def clone_repo
-    puts "Cloning #{git_url} to #{repository_name}"
+    remove_repo if ( File.exist?( root ) )
+    puts "Cloning #{git_url} to #{root}"
     git = Git.clone(git_url, repository_name, :path=>deployment_path)
     puts "Resetting repo to #{push['after']}"
     git.reset_hard(push['after'])
@@ -95,8 +101,8 @@ class Deployer
   end
 
   def write_descriptor
-    deployment_name, deployment_descriptor = deployment( push.repo_name, root, repository_name)
-    TorqueBox::RakeUtils.deploy_yaml( deployment_name, deployment_descriptor )
+    name, descriptor = deployment( repository_name, root, repository_name )
+    TorqueBox::RakeUtils.deploy_yaml( name, descriptor )
   end
 
   def path_to(file)

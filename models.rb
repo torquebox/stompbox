@@ -36,7 +36,11 @@ class Push
     end
 
     event :undeployed do
-      transition :undeploying => :undeployed
+      transition all => :undeployed
+    end
+
+    after_transition all => :undeploying do 
+      self.deployment.destroy
     end
 
   end
@@ -51,6 +55,14 @@ class Push
 
   def repo_name
     self['repository']['name']
+  end
+
+  def branch
+    self['ref'].split('/').last
+  end
+
+  def master?
+    branch == 'master'
   end
 
   def short_commit_hash
@@ -74,8 +86,8 @@ class Deployment
   property :id, Serial
   property :path, String
   property :context, String
+  property :branch, String
   property :created_at, DateTime
-  property :undeployed_at, DateTime
 
   belongs_to :push
 
