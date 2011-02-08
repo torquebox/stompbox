@@ -25,18 +25,18 @@ post '/deploy' do
   redirect '/'
 end
 
+post '/undeploy' do
+  if (params[:id] && (push = Push.get(params[:id])))
+    Deployer.undeploy(push)
+  end
+  redirect '/'
+end
+
 # Post a deployment
 post '/:api_key' do
   if params[:payload] && (params[:api_key] == config('api_key'))
     push = Push.create(:payload=>params[:payload], :created_at=>Time.now)
     push.save if push
-  end
-  redirect '/'
-end
-
-post '/undeploy' do
-  if (params[:id] && (push = Push.get(params[:id])))
-    Deployer.undeploy(push)
   end
   redirect '/'
 end

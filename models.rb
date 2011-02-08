@@ -40,7 +40,7 @@ class Push
     end
 
     after_transition all => :undeploying do 
-      self.deployment.destroy
+      self.deployment.destroy unless self.deployment.nil?
     end
 
   end
