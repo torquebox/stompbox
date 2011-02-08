@@ -4,6 +4,9 @@ deployments: /opt/deployments
 api_key: 3821A95D456134214FAD6FA91A2BAFE574D47151
 
 repositories:
+  buyappalachian.org:
+    branches:
+      - torquebox
   ballast-sinatra:
     branches: 
       - master

@@ -19,7 +19,6 @@ end
 
 post '/deploy' do
   if (params[:id] && (push = Push.get(params[:id])))
-    puts ">>>>>>>>>>>> DEPLOYING #{params[:id]}"
     Deployer.deploy(push)
   end
   redirect '/'

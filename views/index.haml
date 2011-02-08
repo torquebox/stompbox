@@ -50,7 +50,7 @@
               =push.repo_name
           %td=push.branch
         - unless push['commits'].empty?
-          %tr.commits
+          %tr.commits{:class=>(push.tracked? ? 'tracked' : 'ignored')}
             %th.side Commits
             %td{:colspan=>5}
               - push['commits'].each do |commit|
