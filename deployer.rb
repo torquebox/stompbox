@@ -3,8 +3,12 @@ require 'open3'
 require 'models'
 require 'config/stompbox'
 require 'torquebox/rake/tasks'
+require 'org.torquebox.torquebox-messaging-client'
 
 class Deployer
+  include TorqueBox::Messaging::Backgroundable
+
+  always_background :deploy
 
   attr_accessor :push
 
@@ -17,13 +21,18 @@ class Deployer
     Deployer.new(push).deploy
   end
 
-  def self.undeploy(push)
-    Deployer.new(push).undeploy
+  def self.undeploy_it(push, async = true)
+    deployer = Deployer.new(push)
+    if async
+      deployer.background.undeploy
+    else
+      deployer.undeploy
+    end
   end
 
   def self.undeploy_branch(branch)
     Deployment.all(:branch=>branch).each do |d|
-      Deployer.undeploy(d.push)
+      Deployer.undeploy_it(d.push, false)
     end
   end
 
