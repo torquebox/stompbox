@@ -1,31 +1,34 @@
-%h1 Stomp Box :: Deployments
+%h1 Stomp Box :: Dashboard
 .config
-  .repos
-    %ul
-      -config('repositories').keys.each do |key|
-        %li
-          %a{:href=>config('repositories')[key]['url']} 
-            ="#{key} #{config('repositories')[key]['branch']}"
+  %h2 Repositories Managed
+  .repositories
+    -config('repositories').keys.each do |key|
+      .repository
+        %h3= key
+        = StompBox::Config.branches(key).join(', ')
 
 
 - if @pushes
-  .push
+  %h2 Pushes Received
+  .pushes
     %table
       %tr
         %th.side &nbsp;
         %th Date
         %th Status
-        %th Commit Hash
+        %th Commit
         %th Repository
         %th Branch
+      - untracked_pushes = false
       - @pushes.each do |push|
-        %tr
+        - untracked_pushes = untracked_pushes || !push.tracked?
+        %tr{:class=>['push', push.status, (push.tracked? ? 'tracked' : 'ignored')]}
           %th.side Push
-          %td{:style=>'font-size:90%'} 
+          %td
             =push.created_at.strftime("%B %d - %H:%M")
           %td
             =push.status
-            - if push.received? || push.undeployed?
+            - if push.tracked? && (push.received? || push.undeployed?)
               %form{:method=>:post, :action=>'/deploy'}
                 %input{:type=>:hidden, :name=>:id, :value=>push.id}
                 %input{:type=>:submit, :value=>:deploy}
@@ -33,29 +36,35 @@
               %form{:method=>:post, :action=>'/undeploy'}
                 %input{:type=>:hidden, :name=>:id, :value=>push.id}
                 %input{:type=>:submit, :value=>:undeploy}
-              %span.deployment
-                %a{:href=>push.deployment.context}
-                  =push.deployment.context
+              - if push.deployment
+                %span.deployment
+                  %a{:href=>push.deployment.context}
+                    =push.deployment.context
 
           %td
             %a{:href=>push['compare']} 
               =push.short_commit_hash
-          %td
-            =push['repository']['name']
-            \:
-            %a{:href=>push['repository']['url']} 
-              =push['repository']['url']
-          %td=push['ref']
-        %tr
-          %th.side Commits
-          %td{:colspan=>5}
-            - push['commits'].each do |commit|
-              %ul
-                %li=commit['author']['name']
-                %li
-                  %a{:href=>commit['url']} 
-                    =commit['id']
-                %li=commit['timestamp']
-                %li=commit['message']
-        %tr.spacer
-          %td{:colspan=>6} 
+          %td.repo
+            %a{:href=>push.repo_url}
+              =push.repo_name
+          %td=push.branch
+        - unless push['commits'].empty?
+          %tr.commits
+            %th.side Commits
+            %td{:colspan=>5}
+              - push['commits'].each do |commit|
+                %ul
+                  %li=commit['author']['name']
+                  %li
+                    %a{:href=>commit['url']} 
+                      =commit['id']
+                  %li=commit['timestamp']
+                  %li=commit['message']
+
+  - if untracked_pushes
+    %h2 Untracked Pushes
+    You have some untracked pushes.
+    %a{:href=>'#', :id=>'toggler'}
+      show &ndash; hide &rarr;
+    :javascript
+      $('#toggler').click(function() { $('.ignored').toggle() });

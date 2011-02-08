@@ -1,5 +1,10 @@
 deployments: /opt/deployments
 
+# Change this!
+api_key: 3821A95D456134214FAD6FA91A2BAFE574D47151
+
 repositories:
   ballast-sinatra:
-    branch: master
+    branches: 
+      - master
+      - test

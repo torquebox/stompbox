@@ -14,9 +14,11 @@ helpers do
   end
 end
 
+include StompBox::Config
+
 # Post a deployment
-post '/' do
-  if params[:payload]
+post '/:api_key' do
+  if params[:payload] && (params[:api_key] == StompBox::Config.get('api_key'))
     push = Push.create(:payload=>params[:payload], :created_at=>Time.now)
     push.save if push
   end

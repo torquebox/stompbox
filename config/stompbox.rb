@@ -10,5 +10,14 @@ module StompBox
       @@config ||= YAML::load(File.open("config/stompbox.yml"))
       @@config[property]
     end
+
+    def self.repositories
+      StompBox::Config.get('repositories')
+    end
+
+    def self.branches(repository)
+      return nil unless StompBox::Config.repositories.has_key?(repository)
+      StompBox::Config.repositories[repository]['branches']
+    end
   end
 end

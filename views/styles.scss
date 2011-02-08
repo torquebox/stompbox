@@ -1,16 +1,42 @@
-.container {
-  padding: 20px;
-  margin: auto;
-  font-size: 12px;
-  font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospace;
+footer {
+  text-align: center;
+  font-size: smallest;
+  color: #768994;
+  margin-top: 30px;
 }
 
-.container h1, .container h2 {
-  border-bottom: #999 1px dashed;
-  margin-bottom: 15px;
-  padding-bottom: 5px;
+.container {
+  padding: 20px;
+  margin: auto auto 40px;
+  font-size: 12px;
   font-family: Arial, Helvetica, sans-serif;
-  color: #1e317f;
+}
+
+.container h1 {
+  border-bottom: #295666 4px solid;
+  font-size: 24px;
+  margin-bottom: 30px;
+  color: #295666;
+}
+
+.container h2 {
+  border-bottom: #295666 2px solid;
+  font-size: 18px;
+  margin-bottom: 10px;
+  margin-top: 20px;
+  color: #295666;
+}
+
+.container h3 {
+  border-bottom: #3A402B 1px dotted;
+  font-size: 14px;
+  margin: 10px 0;
+  color: #3A402B;
+}
+
+.repositories {
+  display: inline-block;
+  margin-bottom: 20px;
 }
 
 form {
@@ -34,10 +60,7 @@ ul {
   }
 }
 
-.container h1 { font-size: 20px; }
-.container h2 { font-size: 16px; }
-
-.container .push {
+.container .pushes {
   width: 100%;
   table { width: 100%; }
   th, td {
@@ -45,19 +68,37 @@ ul {
     width: 20%;
   }
   th {
-    text-align: center;
     font-size: 120%;
     background-color: #fff;
-    color: #1e317f;
+    color: #3a402b;
+    text-align: left;
   }
   td {
     border: #ddd 1px solid;
   }
-  tr.spacer td {
-    background-color: #ddd;
-  }
   th.side {
     border-bottom: #ddd 1px solid;
+    text-align: center;
+  }
+  tr.commits th { 
+    color: #768994; 
+    font-weight: normal; 
+  }
+  tr.received, tr.undeployed, tr.undeploying {
+    border-left: 10px solid #FFC950;
+  }
+  tr.ignored {
+    border-left: 10px solid #E55714;
+    display: none;
+  }
+  tr.deployed th, tr.deploying th {
+    border-left: 10px solid #17B034;
+    background-color: #17B034;
+  }
+  tr.commits td { font-size: smaller; padding-bottom: 40px; }
+  tr.failed th { 
+    border-left: 10px solid #E55714;
+    background-color: #E55714; 
   }
 }
 
