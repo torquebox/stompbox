@@ -3,12 +3,10 @@ require 'open3'
 require 'models'
 require 'config/stompbox'
 require 'torquebox/rake/tasks'
-require 'org.torquebox.torquebox-messaging-client'
+require 'app/tasks/deployer_task'
 
 class Deployer
-  include TorqueBox::Messaging::Backgroundable
-
-  always_background :deploy
+  include StompBox::Config
 
   attr_accessor :push
 
@@ -17,42 +15,38 @@ class Deployer
   end
 
   def self.deploy(push)
-    Deployer.undeploy_branch(push.branch)
-    Deployer.new(push).deploy
+    push.deploy
+    DeployerTask.async(:deploy, :id=>push.id)
   end
 
-  def self.undeploy_it(push, async = true)
-    deployer = Deployer.new(push)
+  def self.undeploy(push, async = true)
+    push.undeploy
     if async
-      deployer.background.undeploy
+      DeployerTask.async(:undeploy, :id=>push.id)
     else
-      deployer.undeploy
+      Deployer.new(push).undeploy
     end
   end
 
   def self.undeploy_branch(branch)
     Deployment.all(:branch=>branch).each do |d|
-      Deployer.undeploy_it(d.push, false)
+      Deployer.undeploy(d.push, false)
     end
   end
 
   def undeploy
-    push.undeploy
     TorqueBox::RakeUtils.undeploy( repository_name )
     remove_repo if ( File.exist?( root ) )
     push.undeployed
   end
 
-
-  # This is the async method
-  # Add tcrawley bg stuff here
   def deploy
     begin
-      push.deploy
       clone_repo
       freeze_gems
       write_descriptor
       push.deployed
+      push.save
       d = Deployment.create(
         :created_at=>Time.now, 
         :push=>push,
@@ -60,8 +54,6 @@ class Deployer
         :path=>deployment_path,
         :context=>"/#{repository_name}")
       d.save!
-      push.save
-      puts "Deploy complete"
     rescue Exception => ex
       puts ex
       push.failed

@@ -8,33 +8,35 @@ require 'config/stompbox'
 require 'deployer'
 require 'models'
 
+include StompBox::Config
+
 helpers do
   def config(key)
     StompBox::Config.get(key)
   end
+
 end
 
-include StompBox::Config
+post '/deploy' do
+  if (params[:id] && (push = Push.get(params[:id])))
+    puts ">>>>>>>>>>>> DEPLOYING #{params[:id]}"
+    Deployer.deploy(push)
+  end
+  redirect '/'
+end
 
 # Post a deployment
 post '/:api_key' do
-  if params[:payload] && (params[:api_key] == StompBox::Config.get('api_key'))
+  if params[:payload] && (params[:api_key] == config('api_key'))
     push = Push.create(:payload=>params[:payload], :created_at=>Time.now)
     push.save if push
   end
   redirect '/'
 end
 
-post '/deploy' do
-  if (params[:id] && (push = Push.get(params[:id])))
-    Deployer.deploy(push)
-  end
-  redirect '/'
-end
-
 post '/undeploy' do
   if (params[:id] && (push = Push.get(params[:id])))
-    Deployer.undeploy_it(push)
+    Deployer.undeploy(push)
   end
   redirect '/'
 end
@@ -44,7 +46,6 @@ get '/' do
   @pushes = Push.all(:order => [ :created_at.desc ])
   haml :index
 end
-
 
 # Stylesheets - reset
 get '/html5reset.css' do

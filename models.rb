@@ -47,7 +47,7 @@ class Push
 
   def tracked?
     StompBox::Config.repositories.keys.include?(repo_name) && 
-    StompBox::Config.branches(repo_name).include?(branch) &&
+    StompBox::Config.branches(repo_name).include?(branch)
   end
 
   def [](property)

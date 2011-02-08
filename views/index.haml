@@ -38,6 +38,7 @@
                 %input{:type=>:submit, :value=>:undeploy}
               - if push.deployment
                 %span.deployment
+                  %br
                   %a{:href=>push.deployment.context}
                     =push.deployment.context
 
@@ -67,4 +68,4 @@
     %a{:href=>'#', :id=>'toggler'}
       show &ndash; hide &rarr;
     :javascript
-      $('#toggler').click(function() { $('.ignored').toggle() });
+      $('#toggler').click(function() { $('.ignored').toggle();return false; });
