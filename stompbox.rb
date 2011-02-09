@@ -21,14 +21,14 @@ post '/deploy' do
   if (params[:id] && (push = Push.get(params[:id])))
     Deployer.deploy(push)
   end
-  redirect '/'
+  redirect request.script_name
 end
 
 post '/undeploy' do
   if (params[:id] && (push = Push.get(params[:id])))
     Deployer.undeploy(push)
   end
-  redirect '/'
+  redirect request.script_name
 end
 
 # Post a deployment
@@ -37,7 +37,7 @@ post '/:api_key' do
     push = Push.create(:payload=>params[:payload], :created_at=>Time.now)
     push.save if push
   end
-  redirect '/'
+  redirect request.script_name
 end
 
 # List all deployments

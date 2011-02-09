@@ -29,11 +29,11 @@
           %td
             =push.status
             - if push.tracked? && !push.deployed?
-              %form{:method=>:post, :action=>'/deploy'}
+              %form{:method=>:post, :action=>'deploy'}
                 %input{:type=>:hidden, :name=>:id, :value=>push.id}
                 %input{:type=>:submit, :value=>:deploy}
             - elsif push.deployed?
-              %form{:method=>:post, :action=>'/undeploy'}
+              %form{:method=>:post, :action=>'undeploy'}
                 %input{:type=>:hidden, :name=>:id, :value=>push.id}
                 %input{:type=>:submit, :value=>:undeploy}
               - if push.deployment
