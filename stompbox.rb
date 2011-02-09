@@ -32,7 +32,7 @@ post '/undeploy' do
 end
 
 # Post a deployment
-post '/:api_key' do
+post '/push/:api_key' do
   if params[:payload] && (params[:api_key] == config('api_key'))
     push = Push.create(:payload=>params[:payload], :created_at=>Time.now)
     push.save if push

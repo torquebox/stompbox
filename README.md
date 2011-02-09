@@ -48,7 +48,7 @@ Configuration options are found in config/stompbox.yml.  Here are some things yo
 
 Once you've got everything configured and deployed, you can start managing your repositories.  From [GitHub][github], browse to the repository admin screen for one of the repositories you specified in `config/stompbox.yml`. Select "Service Hooks" -> "Post Receive URLs" and enter your StompBox URL plus your api_key (you configured it didn't you?).  It should look something like this.
 
-    http://stompbox.mydomain.com/3821A95D456134214FAD6FA91A2BAFE574D47151
+    http://mydomain.com/stompbox/push/3821A95D456134214FAD6FA91A2BAFE574D47151
     
 After you save your settings, testing the service hook should send a POST request to your StompBox.  Play around. 
 
