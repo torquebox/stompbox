@@ -62,7 +62,7 @@ class Deployer
 
   # Hack to avoid problems with github responses using git gem over https
   def git_url
-    push.repo_url.sub('https', 'git')
+    push.repo_url.sub('https://github.com/', 'git@github.com:')
   end
 
   def deployment_path

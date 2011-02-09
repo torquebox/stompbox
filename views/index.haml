@@ -28,7 +28,7 @@
             =push.created_at.strftime("%B %d - %H:%M")
           %td
             =push.status
-            - if push.tracked? && (push.received? || push.undeployed?)
+            - if push.tracked? && !push.deployed?
               %form{:method=>:post, :action=>'/deploy'}
                 %input{:type=>:hidden, :name=>:id, :value=>push.id}
                 %input{:type=>:submit, :value=>:deploy}
