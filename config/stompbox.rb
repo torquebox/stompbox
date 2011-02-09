@@ -1,9 +1,5 @@
 require 'dm-core'
 
-DataMapper::Logger.new($stdout, :debug)
-DataMapper.setup(:default, "postgres://stompbox:stompbox@localhost/stompbox")
-DataMapper.finalize
-
 module StompBox
   module Config
     def self.get(property)
@@ -21,3 +17,8 @@ module StompBox
     end
   end
 end
+
+DataMapper::Logger.new($stdout, :debug)
+DataMapper.setup(:default, StompBox::Config.get('database'))
+DataMapper.finalize
+
