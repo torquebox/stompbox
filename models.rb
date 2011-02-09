@@ -98,5 +98,26 @@ class Deployment
 
 end
 
+class Repository
+  include DataMapper::Resource
+
+  property :id, Serial
+  property :name, String
+  property :branch, String
+
+end
+
+class DeploymentFile
+  include DataMapper::Resource
+
+  property :id, Serial
+  property :path, String
+  property :body, Text
+
+  belongs_to :repository
+
+end
+
+
 DataMapper.auto_upgrade!
 

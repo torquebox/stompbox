@@ -52,6 +52,19 @@ get '/' do
   haml :index
 end
 
+get '/repositories' do
+  @repositories = Repository.all(:order => [:name, :branch])
+  haml :repositories
+end
+
+post '/repositories' do
+  if params[:repository]
+    repo = Repository.create(params[:repository])
+    repo.save
+  end
+  redirect "#{request.script_name}/repositories"
+end
+
 # Stylesheets - reset
 get '/html5reset.css' do
   sass :html5reset
