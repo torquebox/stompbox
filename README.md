@@ -54,7 +54,7 @@ After you save your settings, testing the service hook should send a POST reques
 
 ## Caveats
 
-This project is very immature and there are many features which are outstanding (such as authentication).  You should **not** use it in a production environment.  It is currently used for research, development and testing only.  
+This project is very immature and there are many features which are outstanding (such as any real authentication).  You should **not** use it in a production environment.  It is currently used for research, development and testing only.  
 
 ## License
 

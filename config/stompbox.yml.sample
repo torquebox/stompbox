@@ -1,6 +1,11 @@
 database: postgres://stompbox:stompbox@localhost/stompbox
 deployments: /opt/deployments
 
+# Change this. It's what you'll use to login to your stompbox instance
+# I know, I know. We'll fix that.
+username: scott
+password: tiger
+
 # Change this!
 api_key: 3821A95D456134214FAD6FA91A2BAFE574D47151
 

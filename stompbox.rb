@@ -5,6 +5,7 @@ require 'sass'
 require 'yaml'
 
 require 'config/stompbox'
+require 'authentication'
 require 'deployer'
 require 'models'
 
@@ -15,6 +16,11 @@ helpers do
     StompBox::Config.get(key)
   end
 
+  include Sinatra::Authentication
+end
+
+before do
+  require_authentication
 end
 
 post '/deploy' do
