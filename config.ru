@@ -1,3 +1,3 @@
 require 'stompbox'
 
-run Sinatra::Application
+run Stompbox

@@ -1,10 +1,11 @@
 %h1 Stomp Box :: Repositories
 %h2 Repositories Managed
 .repositories
-  -@repositories.each do |repo|
-    .repository
-      %h3= repo.name
-      = repo.branch
+  - if @repositories
+    -@repositories.each do |repo|
+      .repository
+        %h3= repo.name
+        = repo.branch
 
 .new-repository
   %h2 Add a new repository
