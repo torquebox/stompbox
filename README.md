@@ -42,11 +42,10 @@ Configuration options are found in config/stompbox.yml.  Here are some things yo
     
     `(stdin)= e4ba3556d1d059e2eadca9488b093d6685657e00`
     
-* **repositories** Here you specify what repositories we're managing, and the branches on those repositories which we care about.  Add as many as you want.
-
 ## Usage
 
-Once you've got everything configured and deployed, you can start managing your repositories.  From [GitHub][github], browse to the repository admin screen for one of the repositories you specified in `config/stompbox.yml`. Select "Service Hooks" -> "Post Receive URLs" and enter your StompBox URL plus your api_key (you configured it didn't you?).  It should look something like this.
+Start by telling StompBox what repositories and branches you want to track.
+Once you've got everything configured and deployed, you can start by telling StompBox what repositories and branches you want to track. Then, from [GitHub][github], browse to the repository admin screen for one of the repositories you specified in `config/stompbox.yml`. Select "Service Hooks" -> "Post Receive URLs" and enter your StompBox URL plus your api_key (you configured it didn't you?).  It should look something like this.
 
     http://mydomain.com/stompbox/push/3821A95D456134214FAD6FA91A2BAFE574D47151
     
