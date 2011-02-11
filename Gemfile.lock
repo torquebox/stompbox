@@ -44,6 +44,8 @@ GEM
       org.torquebox.torquebox-naming-client (= 1.0.0.CR1)
     org.torquebox.vfs (1.0.0.CR1)
     rack (1.2.1)
+    rack-flash (0.1.1)
+      rack
     rake (0.8.7)
     sinatra (1.1.2)
       rack (~> 1.1)
@@ -71,6 +73,7 @@ DEPENDENCIES
   org.torquebox.torquebox-naming-client (= 1.0.0.CR1)
   org.torquebox.torquebox-naming-container (= 1.0.0.CR1)
   org.torquebox.vfs (= 1.0.0.CR1)
+  rack-flash (= 0.1.1)
   rake
   sinatra (= 1.1.2)
   state_machine

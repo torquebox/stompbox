@@ -13,6 +13,10 @@
 
   %body
     .container
+      .menu{:style=>'float:right;display:inline-block'}
+        %a{:href=>home_path} Dashboard
+        \|
+        %a{:href=>path_to("repositories")} Repositories
       = yield
       %footer
         This software brought to you by 

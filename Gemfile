@@ -10,8 +10,9 @@ gem 'org.torquebox.torquebox-naming-container', '1.0.0.CR1'
 gem 'org.torquebox.vfs', '1.0.0.CR1'
 
 gem 'bundler'
-gem "sinatra", "1.1.2"
 gem 'rake'
+gem "sinatra", "1.1.2"
+gem "rack-flash", "0.1.1"
 
 gem 'haml', '~>3.0'
 gem 'json_pure'

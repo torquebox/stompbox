@@ -9,11 +9,3 @@ password: tiger
 # Change this!
 api_key: 3821A95D456134214FAD6FA91A2BAFE574D47151
 
-repositories:
-  ballast-rails:
-    branches:
-      - master
-  ballast-sinatra:
-    branches: 
-      - master
-      - test

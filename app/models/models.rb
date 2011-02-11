@@ -46,8 +46,7 @@ class Push
   end
 
   def tracked?
-    StompBox::Config.repositories.keys.include?(repo_name) && 
-    StompBox::Config.branches(repo_name).include?(branch)
+    Repository.ordered.any? { |r| r.name == repo_name && r.branch == branch }
   end
 
   def [](property)
@@ -104,6 +103,10 @@ class Repository
   property :id, Serial
   property :name, String
   property :branch, String
+
+  def self.ordered
+    @@ordered ||= Repository.all(:order => [:name, :branch])
+  end
 
 end
 

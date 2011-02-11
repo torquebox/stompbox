@@ -2,10 +2,14 @@
 .config
   %h2 Repositories Managed
   .repositories
-    -config('repositories').keys.each do |key|
+    - repositories.each do |repo| 
       .repository
-        %h3= key
-        = StompBox::Config.branches(key).join(', ')
+        %h3= repo.name
+        %a.repo-toggle{:href=>'#', :class=>repo.id}= "#{repo.branch} &rarr;"
+        :javascript
+          $('.#{repo.id}.repo-toggle').click(function() { 
+            $('.#{classify(repo.name)}.#{classify(repo.branch)}').toggle();
+            return false; });
 
 
 - if @pushes
@@ -22,7 +26,7 @@
       - untracked_pushes = false
       - @pushes.each do |push|
         - untracked_pushes = untracked_pushes || !push.tracked?
-        %tr{:class=>['push', push.status, (push.tracked? ? 'tracked' : 'ignored')]}
+        %tr{:class=>classes_for(push) << 'push'}
           %th.side Push
           %td
             =push.created_at.strftime("%B %d - %H:%M")
@@ -50,7 +54,7 @@
               =push.repo_name
           %td=push.branch
         - unless push['commits'].empty?
-          %tr.commits{:class=>(push.tracked? ? 'tracked' : 'ignored')}
+          %tr.commits{:class=>classes_for(push)}
             %th.side Commits
             %td{:colspan=>5}
               - push['commits'].each do |commit|
@@ -66,6 +70,6 @@
     %h2 Untracked Pushes
     You have some untracked pushes.
     %a{:href=>'#', :id=>'toggler'}
-      show &ndash; hide &rarr;
+      Have a look &rarr;
     :javascript
       $('#toggler').click(function() { $('.ignored').toggle();return false; });

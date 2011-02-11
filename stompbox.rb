@@ -3,32 +3,60 @@ $: << File.join(File.dirname(__FILE__), 'app', 'models')
 
 require 'rubygems'
 
-# Framework
 require 'sinatra/base'
 
-# Presentation
 require 'haml'
 require 'sass'
 require 'yaml'
+require 'rack-flash'
 
-# Application
 require 'config/stompbox'
 require 'authentication'
 require 'deployer'
 require 'models'
 
 class Stompbox < Sinatra::Base
-  set :sessions, true
-  set :logging, true
+  enable :sessions, :logging, :method_override
   set :views, Proc.new { File.join(File.dirname(root), "app", "views") }
+  use Rack::Flash
   
   helpers do
+    include StompBox::Config
+    include Sinatra::Authentication
+
     def config(key)
       StompBox::Config.get(key)
     end
+
+    def home_path
+      request.script_name
+    end
+
+    def path_to(location)
+      "#{home_path}/#{location}"
+    end
+
+    def redirect_to(location)
+      redirect path_to(location)
+    end
+
+    def repositories
+      @repositories ||= Repository.ordered
+    end
+
+    def classes_for(push)
+      track = push.tracked? ? 'tracked' : 'ignored'
+      [push.status, track, classify(push.repo_name), classify(push.branch)]
+    end
+
+    def selector_for(push)
+      classes_for(push).join('.')
+    end
+
+    def classify(str)
+      str.gsub('.', '-')
+    end
   
-    include StompBox::Config
-    include Sinatra::Authentication
   end
   
   before do
@@ -39,14 +67,14 @@ class Stompbox < Sinatra::Base
     if (params[:id] && (push = Push.get(params[:id])))
       Deployer.deploy(push)
     end
-    redirect request.script_name
+    redirect home_path
   end
   
   post '/undeploy' do
     if (params[:id] && (push = Push.get(params[:id])))
       Deployer.undeploy(push)
     end
-    redirect request.script_name
+    redirect home_path
   end
   
   # Post a deployment
@@ -55,7 +83,7 @@ class Stompbox < Sinatra::Base
       push = Push.create(:payload=>params[:payload], :created_at=>Time.now)
       push.save if push
     end
-    redirect request.script_name
+    redirect home_path
   end
   
   # List all deployments
@@ -65,16 +93,31 @@ class Stompbox < Sinatra::Base
   end
   
   get '/repositories' do
-    @repositories = Repository.all(:order => [:name, :branch])
-    haml :'repositories/repositories'
+    repositories 
+    haml :'repositories/index'
   end
   
   post '/repositories' do
     if params[:repository]
       repo = Repository.create(params[:repository])
+      flash[:error] = repo.errors unless repo.save
+    end
+    redirect_to "repositories"
+  end
+
+  delete '/repositories/:id' do
+    if repo = Repository.get(params[:id])
+      repo.destroy 
+    end
+    redirect_to "repositories"
+  end
+  
+  put '/repositories/:id' do
+    if repo = Repository.get(params[:id])
+      repo.update(params[:repository])
       repo.save
     end
-    redirect "#{request.script_name}/repositories"
+    redirect_to "repositories"
   end
   
   # Stylesheets - reset

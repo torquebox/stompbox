@@ -1,0 +1,7 @@
+- repository ||= Repository.new
+%input{:type=>:text, :name=>'repository[name]', :value=>repository.name}
+%label{:for=>'repository[name]'} Name
+%br
+%input{:type=>:text, :name=>'repository[branch]', :value=>repository.branch}
+%label{:for=>'repository[branch]'} Branch
+

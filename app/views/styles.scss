@@ -12,6 +12,17 @@ footer {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+.container a {
+  text-decoration: none;
+  color: #768974;
+}
+
+.container a:hover {
+  color: #768930;
+  border-bottom: #768930 1px dotted;
+}
+
+
 .container h1 {
   border-bottom: #295666 4px solid;
   font-size: 24px;
@@ -39,14 +50,13 @@ footer {
   margin-bottom: 20px;
 }
 
-form {
-  display: inline-block;
-  input[type=submit] {
-    background-color: #ddd;
-    border: none;
-    cursor: pointer;
-    color: #1e317f;
-  }
+form { display: inline-block; }
+
+input[type=submit] {
+  background-color: #ddd;
+  border: none;
+  cursor: pointer;
+  color: #1e317f;
 }
 
 ul {
@@ -84,21 +94,30 @@ ul {
     color: #768994; 
     font-weight: normal; 
   }
-  tr.received, tr.undeployed, tr.undeploying {
+  tr.received.push, tr.undeployed.push, tr.undeploying.push {
     border-left: 10px solid #FFC950;
   }
   tr.ignored {
     border-left: 10px solid #E55714;
     display: none;
   }
-  tr.deployed th, tr.deploying th {
+  tr.deployed.push th, tr.deploying.push th {
     border-left: 10px solid #17B034;
     background-color: #17B034;
   }
   tr.commits td { font-size: smaller; padding-bottom: 40px; }
-  tr.failed th { 
+  tr.failed.push th { 
     border-left: 10px solid #E55714;
     background-color: #E55714; 
   }
+}
+
+.container .repository {
+  padding: 10px;
+  background-color: #eee;
+  margin: 0 15px 10px 0;
+  display: inline-block;
+  min-width: 250px;
+  float: left;
 }
 

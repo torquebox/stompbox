@@ -1,0 +1,39 @@
+%h1 Stomp Box :: Repositories
+%h2 Repositories Managed
+.flash
+  = flash[:error]
+.repositories
+  - if @repositories
+    -@repositories.each do |repo|
+      .repository
+        %h3= "#{repo.name} : #{repo.branch}"
+        %p
+          .panel
+            %input.toggle{:type=>:submit, :value=>:change}
+            or 
+            %form{:action=>"repositories/#{repo.id}", :method=>:post}
+              %input{:type=>:hidden, :name=>:_method, :value=>:delete}
+              %input.delete{:type=>:submit, :value=>:delete}
+
+          .panel{:style=>'display:none'}
+            %form{:action=>"repositories/#{repo.id}", :method=>:post}
+              = haml :'repositories/form', :locals => { :repository => repo }
+              %input{:type=>:hidden, :name=>:_method, :value=>:put}
+              %input{:type=>:submit, :value=>:update}
+
+            %a.toggle{:href=>'#'} Cancel
+
+.new-repository
+  %h2 Add a new repository
+  %form{:action=>'repositories', :method=>:post}
+    =haml :'repositories/form'
+    %input{:type=>:hidden, :name=>:_method, :value=>:post}
+    %input{:type=>:submit, :value=>:create}
+
+:javascript
+  $('.panel .delete').click(function(e) {
+    alert("Are you sure you want to do this? It can't be undone.") });
+  $('.panel .toggle').click(function(e) { 
+    $(e.target).parent('.panel').toggle();
+    $(e.target).parent('.panel').siblings('.panel').toggle();
+    return false; });

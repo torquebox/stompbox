@@ -20,6 +20,7 @@ end
 
 DataMapper::Logger.new($stdout, :debug)
 DataMapper.setup(:default, StompBox::Config.get('database'))
+DataMapper::Model.raise_on_save_failure = true 
 DataMapper.finalize
 
 
