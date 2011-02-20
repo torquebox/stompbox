@@ -105,7 +105,7 @@ class Repository
   property :branch, String
 
   def self.ordered
-    @@ordered ||= Repository.all(:order => [:name, :branch])
+    Repository.all(:order => [:name, :branch])
   end
 
 end
