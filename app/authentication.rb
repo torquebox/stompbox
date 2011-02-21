@@ -24,8 +24,13 @@ module Sinatra
       (StompBox::Config.get('username') == username) && 
         (StompBox::Config.get('password') == password)
     end
+
+    def skip_authentication
+      request.env['SKIP_AUTH'] = true
+    end
    
     def require_authentication
+      return if request.env['SKIP_AUTH']
       return if authenticated?
       unauthorized! unless auth.provided?
       bad_request! unless auth.basic?

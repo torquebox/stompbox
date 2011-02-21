@@ -59,6 +59,10 @@ class Stompbox < Sinatra::Base
   
   end
   
+  before '/push/*' do
+    skip_authentication
+  end
+
   before do
     require_authentication
   end
