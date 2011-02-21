@@ -3,6 +3,7 @@ GEM
   remote: http://rubygems.torquebox.org/
   specs:
     addressable (2.2.4)
+    backports (1.18.2)
     data_objects (0.10.3)
       addressable (~> 2.1)
     dm-core (1.0.2)
@@ -31,6 +32,8 @@ GEM
     haml (3.0.25)
     jdbc-postgres (9.0.801)
     json_pure (1.5.1)
+    monkey-lib (0.5.4)
+      backports
     org.torquebox.container-foundation (1.0.0.CR1-java)
     org.torquebox.messaging-client (1.0.0.CR1-java)
       org.torquebox.naming-client (= 1.0.0.CR1)
@@ -50,6 +53,16 @@ GEM
     sinatra (1.1.2)
       rack (~> 1.1)
       tilt (~> 1.2)
+    sinatra-advanced-routes (0.5.1)
+      monkey-lib (~> 0.5.0)
+      sinatra (~> 1.0)
+      sinatra-sugar (~> 0.5.0)
+    sinatra-reloader (0.5.0)
+      sinatra (~> 1.0)
+      sinatra-advanced-routes (~> 0.5.0)
+    sinatra-sugar (0.5.0)
+      monkey-lib (~> 0.5.0)
+      sinatra (~> 1.0)
     state_machine (0.9.4)
     tilt (1.2.2)
 
@@ -76,4 +89,5 @@ DEPENDENCIES
   rack-flash (= 0.1.1)
   rake
   sinatra (= 1.1.2)
+  sinatra-reloader (= 0.5.0)
   state_machine

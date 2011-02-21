@@ -17,6 +17,12 @@
         %a{:href=>home_path} Dashboard
         \|
         %a{:href=>path_to("repositories")} Repositories
+        \|
+        - push_path = path_to( "push/#{StompBox::Config.get('api_key')}" )
+        %a{:href=>push_path}
+          GitHub Push URL
+      .clearfix{:style=>'clear:left;'}
+        &nbsp;
       = yield
       %footer
         This software brought to you by 

@@ -79,6 +79,7 @@ class Stompbox < Sinatra::Base
   
   # Post a deployment
   post '/push/:api_key' do
+    puts params[:payload].inspect
     if params[:payload] && (params[:api_key] == config('api_key'))
       push = Push.create(:payload=>params[:payload], :created_at=>Time.now)
       push.save if push

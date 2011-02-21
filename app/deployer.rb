@@ -2,6 +2,7 @@ require 'git'
 require 'open3'
 require 'models'
 require 'config/stompbox'
+require 'org.torquebox.rake-support'
 require 'torquebox/rake/tasks'
 require 'app/tasks/deployer_task'
 
@@ -35,7 +36,7 @@ class Deployer
   end
 
   def undeploy
-    TorqueBox::RakeUtils.undeploy( repository_name )
+    TorqueBox::RakeUtils.undeploy( "#{repository_name}-knob.yml" )
     remove_repo if ( File.exist?( root ) )
     push.undeployed
   end
@@ -94,15 +95,17 @@ class Deployer
 
   def freeze_gems
     puts "Freezing gems"
+    jruby = File.join( RbConfig::CONFIG['bindir'], RbConfig::CONFIG['ruby_install_name'] )
     if ( File.exist?( path_to('Gemfile') ) )
-      jruby = File.join( RbConfig::CONFIG['bindir'], RbConfig::CONFIG['ruby_install_name'] )
       exec_cmd( "cd #{root} && #{jruby} -S bundle package" )
       exec_cmd( "cd #{root} && #{jruby} -S bundle install --local --path vendor/bundle" )
+    else
+      exec_cmd( "cd #{root} && #{jruby} -S rake rails:freeze:gems" )
     end
   end
 
   def write_descriptor
-    name, descriptor = deployment( repository_name, root, repository_name )
+    name, descriptor = deployment( repository_name, root, "/#{repository_name}" )
     TorqueBox::RakeUtils.deploy_yaml( name, descriptor )
   end
 

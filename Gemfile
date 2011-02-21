@@ -12,6 +12,7 @@ gem 'org.torquebox.vfs', '1.0.0.CR1'
 gem 'bundler'
 gem 'rake'
 gem "sinatra", "1.1.2"
+gem "sinatra-reloader", "0.5.0"
 gem "rack-flash", "0.1.1"
 
 gem 'haml', '~>3.0'
