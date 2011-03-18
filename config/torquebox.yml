@@ -5,6 +5,7 @@ web:
   context: /stompbox
 
 environment:
-  REQUIRE_AUTHENTICATION: foo
+  REQUIRE_AUTHENTICATION: 'true'
+
 
 

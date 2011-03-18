@@ -13,20 +13,23 @@
 
   %body
     .container
-      .menu{:style=>'float:right;display:inline-block'}
-        %a{:href=>home_path} Dashboard
-        \|
-        %a{:href=>to("repositories")} Repositories
-        \|
-        - push_path = to( "push/#{StompBox::Config.get('api_key')}" )
-        %a{:href=>push_path}
-          GitHub Push URL
-        - if ENV['REQUIRE_AUTHENTICATION']
+      #header
+        .menu{:style=>'float:right;display:inline-block'}
+          %a{:href=>home_path} Dashboard
           \|
-          %a{:href=>to("logout")} Logout
-      .clearfix{:style=>'clear:left;'}
-        &nbsp;
-      = yield
-      %footer
+          %a{:href=>to("repositories")} Repositories
+          \|
+          - push_path = to( "push/#{StompBox::Config.get('api_key')}" )
+          %a{:href=>push_path}
+            GitHub Push URL
+          - if ENV['REQUIRE_AUTHENTICATION']
+            \|
+            %a{:href=>to("logout")} Logout
+        %h1 TorqueBox::StompBox
+
+      #content
+        = yield
+
+      %footer#footer
         This software brought to you by 
         %a{:href=>'http://projectodd.org'} project : odd
