@@ -1,28 +1,23 @@
 require 'config/stompbox'
+require 'org/torquebox/auth/authentication'
 
 module Sinatra
   module Authentication
  
-    def auth
-      @auth ||= Rack::Auth::Basic::Request.new(request.env)
+    def login_path
+      "#{request.script_name}/login"
     end
-   
-    def unauthorized!(realm=request.host)
-      headers 'WWW-Authenticate' => %(Basic realm="#{realm}")
-      throw :halt, [ 401, 'Authentication Required' ]
-    end
-   
-    def bad_request!
-      throw :halt, [ 400, 'Bad Request' ]
-    end
-   
+
     def authenticated?
-      !request.env['REMOTE_USER'].nil?
+      !session[:user].nil?
     end
    
     def authenticate(username, password)
-      (StompBox::Config.get('username') == username) && 
-        (StompBox::Config.get('password') == password)
+      return false if username.blank? || password.blank?
+      authenticator = TorqueBox::Authentication.default
+      authenticator.authenticate(username, password) do
+        session[:user] = username
+      end
     end
 
     def skip_authentication
@@ -32,10 +27,12 @@ module Sinatra
     def require_authentication
       return if request.env['SKIP_AUTH']
       return if authenticated?
-      unauthorized! unless auth.provided?
-      bad_request! unless auth.basic?
-      unauthorized! unless authenticate(*auth.credentials)
-      request.env['REMOTE_USER'] = auth.username
+      redirect login_path 
+    end
+
+    def logout
+      session[:user] = nil
+      redirect login_path
     end
    
   end

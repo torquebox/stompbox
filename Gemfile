@@ -1,13 +1,7 @@
 source :rubygems
 source 'http://rubygems.torquebox.org'
 
-gem 'org.torquebox.rake-support', '1.0.0.CR1'
-gem 'org.torquebox.container-foundation', '1.0.0.CR1'
-gem 'org.torquebox.messaging-client', '1.0.0.CR1'
-gem 'org.torquebox.messaging-container', '1.0.0.CR1'
-gem 'org.torquebox.naming-client', '1.0.0.CR1'
-gem 'org.torquebox.naming-container', '1.0.0.CR1'
-gem 'org.torquebox.vfs', '1.0.0.CR1'
+gem 'torquebox-rake-support', '1.0.0.CR1'
 
 gem 'bundler'
 gem 'rake'

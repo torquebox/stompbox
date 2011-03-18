@@ -4,3 +4,7 @@ application:
 web:
   context: /stompbox
 
+environment:
+  REQUIRE_AUTHENTICATION: foo
+
+

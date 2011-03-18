@@ -34,18 +34,6 @@ GEM
     json_pure (1.5.1)
     monkey-lib (0.5.4)
       backports
-    org.torquebox.container-foundation (1.0.0.CR1-java)
-    org.torquebox.messaging-client (1.0.0.CR1-java)
-      org.torquebox.naming-client (= 1.0.0.CR1)
-    org.torquebox.messaging-container (1.0.0.CR1-java)
-      org.torquebox.container-foundation (= 1.0.0.CR1)
-      org.torquebox.naming-client (= 1.0.0.CR1)
-    org.torquebox.naming-client (1.0.0.CR1-java)
-    org.torquebox.naming-container (1.0.0.CR1-java)
-      org.torquebox.container-foundation (= 1.0.0.CR1)
-      org.torquebox.naming-client (= 1.0.0.CR1)
-    org.torquebox.rake-support (1.0.0.CR1)
-    org.torquebox.vfs (1.0.0.CR1)
     rack (1.2.1)
     rack-flash (0.1.1)
       rack
@@ -65,6 +53,7 @@ GEM
       sinatra (~> 1.0)
     state_machine (0.9.4)
     tilt (1.2.2)
+    torquebox-rake-support (1.0.0.CR1)
 
 PLATFORMS
   java
@@ -79,15 +68,9 @@ DEPENDENCIES
   git
   haml (~> 3.0)
   json_pure
-  org.torquebox.container-foundation (= 1.0.0.CR1)
-  org.torquebox.messaging-client (= 1.0.0.CR1)
-  org.torquebox.messaging-container (= 1.0.0.CR1)
-  org.torquebox.naming-client (= 1.0.0.CR1)
-  org.torquebox.naming-container (= 1.0.0.CR1)
-  org.torquebox.rake-support (= 1.0.0.CR1)
-  org.torquebox.vfs (= 1.0.0.CR1)
   rack-flash (= 0.1.1)
   rake
   sinatra (= 1.1.2)
   sinatra-reloader (= 0.5.0)
   state_machine
+  torquebox-rake-support (= 1.0.0.CR1)

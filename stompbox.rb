@@ -15,13 +15,21 @@ require 'authentication'
 require 'deployer'
 require 'models'
 
-class Stompbox < Sinatra::Base
-  enable :sessions, :logging, :method_override
-  set :views, Proc.new { File.join(File.dirname(root), "app", "views") }
-  use Rack::Flash
+REQUIRE_AUTH = true
+
+unless ENV['REQUIRE_AUTHENTICATION'] 
+  puts "ENV['REQUIRE_AUTHENTICATION'] is not set, *disabling* authentication" 
+  REQUIRE_AUTH = false
+end
+
+class Stompbox < Sinatra::Base 
+  enable :sessions, :logging, :method_override 
+  set :views, Proc.new { File.join(File.dirname(root), "app", "views") } 
+  use Rack::Flash 
   
-  helpers do
-    include StompBox::Config
+  helpers do 
+    
+    include StompBox::Config 
     include Sinatra::Authentication
 
     def config(key)
@@ -32,12 +40,9 @@ class Stompbox < Sinatra::Base
       request.script_name
     end
 
-    def path_to(location)
+    def to(location)
+      location.gsub!(/^\//, '')
       "#{home_path}/#{location}"
-    end
-
-    def redirect_to(location)
-      redirect path_to(location)
     end
 
     def repositories
@@ -56,29 +61,34 @@ class Stompbox < Sinatra::Base
     def classify(str)
       str.gsub('.', '-')
     end
-  
-  end
-  
-  before '/push/*' do
-    skip_authentication
+
   end
 
-  before do
-    require_authentication
+  if REQUIRE_AUTH
+    ['*/push/*','*/login','*/logout', '*.js', '/*.css' ].each do |p|
+      puts "Skipping authentication for #{p}"
+      before p do 
+        skip_authentication 
+      end
+    end
+    
+    before do 
+      require_authentication 
+    end
   end
-  
+
   post '/deploy' do
     if (params[:id] && (push = Push.get(params[:id])))
       Deployer.deploy(push)
     end
-    redirect home_path
+    redirect to('/')
   end
   
   post '/undeploy' do
     if (params[:id] && (push = Push.get(params[:id])))
       Deployer.undeploy(push)
     end
-    redirect home_path
+    redirect to('/')
   end
   
   # Post a deployment
@@ -88,13 +98,27 @@ class Stompbox < Sinatra::Base
       push = Push.create(:payload=>params[:payload], :created_at=>Time.now)
       push.save if push
     end
-    redirect home_path
+    redirect to('/')
   end
   
   # List all deployments
   get '/' do
     @pushes = Push.all(:order => [ :created_at.desc ])
     haml :'pushes/index'
+  end
+
+  get '/login' do
+    haml :'sessions/new'
+  end
+
+  post '/login' do
+    flash[:notice] = "Bad credentials. Try again?" unless authenticate( params[:user], params[:password] )
+    redirect to('/')
+  end
+
+  get '/logout' do
+    logout
+    flash.now[:notice] = "You have been logged out"
   end
   
   get '/repositories' do
@@ -107,14 +131,14 @@ class Stompbox < Sinatra::Base
       repo = Repository.create(params[:repository])
       flash[:error] = repo.errors unless repo.save
     end
-    redirect_to "repositories"
+    redirect to("/repositories")
   end
 
   delete '/repositories/:id' do
     if repo = Repository.get(params[:id])
       repo.destroy 
     end
-    redirect_to "repositories"
+    redirect to("/repositories")
   end
   
   put '/repositories/:id' do
@@ -122,7 +146,7 @@ class Stompbox < Sinatra::Base
       repo.update(params[:repository])
       repo.save
     end
-    redirect_to "repositories"
+    redirect to("repositories")
   end
   
   # Stylesheets - reset

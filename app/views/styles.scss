@@ -23,6 +23,10 @@ footer {
 }
 
 
+.container h1, .container h2, .container h3 {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
 .container h1 {
   border-bottom: #295666 4px solid;
   font-size: 24px;
@@ -57,6 +61,18 @@ input[type=submit] {
   border: none;
   cursor: pointer;
   color: #1e317f;
+}
+
+#login_form {
+  margin: 40px auto;
+  width: 240px;
+  padding: 20px;
+  background-color: #295666;
+  color: #ddd;
+  font-size: larger;
+  border: #aaa 1px solid;
+
+  p { margin-bottom: 20px; }
 }
 
 ul {
