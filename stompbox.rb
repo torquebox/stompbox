@@ -118,7 +118,6 @@ class Stompbox < Sinatra::Base
 
   get '/logout' do
     logout
-    flash.now[:notice] = "You have been logged out"
   end
   
   get '/repositories' do
@@ -161,3 +160,4 @@ class Stompbox < Sinatra::Base
 
   run! if app_file == $0
 end
+

@@ -27,8 +27,13 @@
             %a{:href=>to("logout")} Logout
         %h1 TorqueBox::StompBox
 
+
       #content
         = yield
+
+      - [:error, :notice].each do |level|
+        - if flash.has? level
+          .flash{:class=>level}= flash[level]
 
       %footer#footer
         This software brought to you by 
