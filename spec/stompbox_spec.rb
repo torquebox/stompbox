@@ -1,19 +1,17 @@
-require File.dirname(__FILE__) + '/spec_helper'
+require 'spec_helper'
 
-describe "StompBox" do
-  include Rack::Test::Methods
+module StompBox 
 
-  def app
-    @app ||= Sinatra::Application
+  describe 'application with Authentication' do
+    before(:each) do
+      ENV['REQUIRE_AUTHENTICATION'] = 'true'
+    end
+
+    it "should redirect to login if credentials are not supplied" do
+      ENV['REQUIRE_AUTHENTICATION'] = 'true'
+      get '/stompbox'
+      last_response.status.should == 302
+    end
   end
 
-  it "should respond with attitude to GET /" do
-    get '/'
-    last_response.body.should == 'You only get POST, sucka'
-  end
-
-  it "should respond to POST /" do
-    post '/'
-    last_response.should be_ok
-  end
 end

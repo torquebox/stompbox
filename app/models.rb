@@ -122,5 +122,5 @@ class DeploymentFile
 end
 
 
-DataMapper.auto_upgrade!
+#DataMapper.auto_upgrade!
 

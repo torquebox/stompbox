@@ -1,7 +1,4 @@
-$: << File.join(RACK_ROOT, 'app')
-$: << File.join(RACK_ROOT, 'app', 'models')
-
-require 'org.torquebox.messaging-client'
+require 'torquebox-messaging'
 require 'deployer'
 require 'models'
 

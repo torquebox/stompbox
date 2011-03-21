@@ -2,7 +2,7 @@ require 'git'
 require 'open3'
 require 'models'
 require 'config/stompbox'
-require 'org.torquebox.rake-support'
+require 'torquebox-rake-support'
 require 'torquebox/rake/tasks'
 require 'app/tasks/deployer_task'
 

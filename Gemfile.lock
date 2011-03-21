@@ -6,6 +6,7 @@ GEM
     backports (1.18.2)
     data_objects (0.10.3)
       addressable (~> 2.1)
+    diff-lcs (1.1.2)
     dm-core (1.0.2)
       addressable (~> 2.2)
       extlib (~> 0.9.15)
@@ -37,7 +38,17 @@ GEM
     rack (1.2.1)
     rack-flash (0.1.1)
       rack
+    rack-test (0.5.7)
+      rack (>= 1.0)
     rake (0.8.7)
+    rspec (2.5.0)
+      rspec-core (~> 2.5.0)
+      rspec-expectations (~> 2.5.0)
+      rspec-mocks (~> 2.5.0)
+    rspec-core (2.5.1)
+    rspec-expectations (2.5.0)
+      diff-lcs (~> 1.1.2)
+    rspec-mocks (2.5.0)
     sinatra (1.1.2)
       rack (~> 1.1)
       tilt (~> 1.2)
@@ -53,7 +64,19 @@ GEM
       sinatra (~> 1.0)
     state_machine (0.9.4)
     tilt (1.2.2)
+    torquebox (1.0.0.CR1)
+      torquebox-base (= 1.0.0.CR1)
+      torquebox-messaging (= 1.0.0.CR1)
+      torquebox-naming (= 1.0.0.CR1)
+      torquebox-rake-support (= 1.0.0.CR1)
+      torquebox-web (= 1.0.0.CR1)
+    torquebox-base (1.0.0.CR1-java)
+    torquebox-messaging (1.0.0.CR1-java)
+      torquebox-base (= 1.0.0.CR1)
+      torquebox-naming (= 1.0.0.CR1)
+    torquebox-naming (1.0.0.CR1-java)
     torquebox-rake-support (1.0.0.CR1)
+    torquebox-web (1.0.0.CR1-java)
 
 PLATFORMS
   java
@@ -69,8 +92,10 @@ DEPENDENCIES
   haml (~> 3.0)
   json_pure
   rack-flash (= 0.1.1)
+  rack-test
   rake
+  rspec
   sinatra (= 1.1.2)
   sinatra-reloader (= 0.5.0)
   state_machine
-  torquebox-rake-support (= 1.0.0.CR1)
+  torquebox
