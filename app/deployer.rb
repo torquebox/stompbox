@@ -17,13 +17,13 @@
 require 'git'
 require 'open3'
 require 'models'
-require 'config/stompbox'
 require 'torquebox-rake-support'
 require 'torquebox/rake/tasks'
 require 'app/tasks/deployer_task'
 
+ENV['DEPLOYMENTS'] ||= '/opt/deployments'
+
 class Deployer
-  include StompBox::Config
 
   attr_accessor :push
 
@@ -83,7 +83,7 @@ class Deployer
   end
 
   def deployment_path
-    StompBox::Config.get('deployments')
+    @deployment_path ||= ENV['DEPLOYMENTS']
   end
 
   def repository_name

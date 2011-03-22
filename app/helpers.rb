@@ -18,10 +18,9 @@ module StompBox
   class Application < Sinatra::Base 
     
     helpers do 
-      include StompBox::Config 
   
       def config(key)
-        StompBox::Config.get(key)
+        ENV[key]
       end
   
       def home_path

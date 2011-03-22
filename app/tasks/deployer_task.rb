@@ -19,7 +19,6 @@ require 'deployer'
 require 'models'
 
 class DeployerTask < TorqueBox::Messaging::Task
-  include StompBox::Config
 
   def deploy(payload)
     push = Push.get(payload[:id])

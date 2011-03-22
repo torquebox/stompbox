@@ -24,14 +24,21 @@ require 'haml'
 require 'sass'
 require 'yaml'
 
-require 'config/stompbox'
 require 'authentication'
 require 'deployer'
 require 'helpers'
 require 'models'
 
 
+if ENV['RACK_ENV'].to_s == 'development'
+  puts "StompBox: DATABASE_URL = #{ENV['DATABASE_URL']}"
+  puts "StompBox: DEPLOYMENTS  = #{ENV['DEPLOYMENTS']}"
+  puts "StompBox: AUTO_MIGRATE = #{ENV['AUTO_MIGRATE']}"
+  puts "StompBox: API_KEY      = #{ENV['API_KEY']}"
+end
+
 module StompBox
+
   class Application < Sinatra::Base 
     include StompBox::Authentication
     use Rack::Flash 
@@ -53,7 +60,7 @@ module StompBox
         require_authentication 
       end
     else
-      puts "ENV['REQUIRE_AUTHENTICATION'] is not set, *disabling* authentication" if ENV['REQUIRE_AUTHENTICATION'].nil?
+      puts "StompBox: REQUIRE_AUTHENTICATION is not set, *disabling* authentication" if ENV['REQUIRE_AUTHENTICATION'].nil?
     end
   
     post '/deploy' do
@@ -72,7 +79,7 @@ module StompBox
     
     # Post a deployment
     post '/push/:api_key' do
-      if params[:payload] && (params[:api_key] == config('api_key'))
+      if params[:payload] && (params[:api_key] == config('API_KEY'))
         push = Push.create(:payload=>params[:payload], :created_at=>Time.now)
         push.save if push
       end

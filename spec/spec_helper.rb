@@ -17,6 +17,8 @@
 require 'rack/test'
 require 'stompbox'
 
+ENV['DATABASE_URL'] = 'postgres://stompbox:stompbox@localhost/stompbox'
+
 def app
   @app ||= StompBox::Application.new
 end

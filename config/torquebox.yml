@@ -5,7 +5,11 @@ web:
   context: /stompbox
 
 environment:
-#  REQUIRE_AUTHENTICATION: 'true'
+  AUTO_MIGRATE: 'true'
+  DATABASE_URL: postgres://stompbox:stompbox@localhost/stompbox
+  DEPLOYMENTS: /opt/deployments
 
-
+  # Change this!
+  API_KEY: 3821A95D456134214FAD6FA91A2BAFE574D47151
+  # REQUIRE_AUTHENTICATION: 'true'
 

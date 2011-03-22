@@ -15,4 +15,3 @@ task :set_admin do
   sh "touch #{SERVER_ROOT}/conf/defaultRoles.properties"
 end
 
-

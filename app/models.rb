@@ -16,10 +16,9 @@
 
 require 'json'
 require 'state_machine'
+require 'dm-core'
 require 'dm-migrations'
 require 'dm-timestamps'
-
-require 'config/stompbox'
 
 class Push
   include DataMapper::Resource
@@ -137,6 +136,15 @@ class DeploymentFile
 
 end
 
+database_url = ENV['DATABASE_URL']
+database_url ||= 'postgres://stompbox:stompbox@localhost/stompbox'
 
-#DataMapper.auto_upgrade!
+DataMapper::Logger.new($stdout, :info)
+DataMapper.setup(:default, database_url)
+DataMapper::Model.raise_on_save_failure = true 
+DataMapper.finalize
 
+
+if ENV['AUTO_MIGRATE']
+  DataMapper.auto_upgrade!
+end

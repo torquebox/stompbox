@@ -19,7 +19,7 @@
           \|
           %a{:href=>to("repositories")} Repositories
           \|
-          - push_path = to( "push/#{StompBox::Config.get('api_key')}" )
+          - push_path = to( "push/#{config('API_KEY')}" )
           %a{:href=>push_path}
             GitHub Push URL
           - if ENV['REQUIRE_AUTHENTICATION']
