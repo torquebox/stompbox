@@ -18,9 +18,11 @@ require 'rack/test'
 require 'stompbox'
 
 def app
-  @app ||= StompBox::Application
+  @app ||= StompBox::Application.new
 end
 
 RSpec.configure do |conf|
   conf.include Rack::Test::Methods
 end
+
+

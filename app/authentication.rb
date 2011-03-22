@@ -14,9 +14,10 @@
 # limitations under the License.
 #
 
-#require 'org/torquebox/auth/authentication'
+require 'torquebox'
+require 'org/torquebox/auth/authentication'
 
-module Sinatra
+module StompBox
   module Authentication
  
     def login_path
@@ -29,10 +30,10 @@ module Sinatra
    
     def authenticate(username, password)
       return false if username.blank? || password.blank?
-#      authenticator = TorqueBox::Authentication.default
-#      authenticator.authenticate(username, password) do
-#        session[:user] = username
-#      end
+      authenticator = TorqueBox::Authentication.default
+      authenticator.authenticate(username, password) do
+        session[:user] = username
+      end
     end
 
     def skip_authentication

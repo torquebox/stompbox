@@ -30,17 +30,19 @@ require 'deployer'
 require 'helpers'
 require 'models'
 
-puts "ENV['REQUIRE_AUTHENTICATION'] is not set, *disabling* authentication" if ENV['REQUIRE_AUTHENTICATION'].nil?
 
 module StompBox
   class Application < Sinatra::Base 
+    include StompBox::Authentication
+    use Rack::Flash 
+
+
     enable :sessions, :logging, :method_override 
     set :root, Proc.new { File.expand_path(File.dirname(__FILE__)) }
     set :views, Proc.new { File.join(File.dirname(__FILE__), "app", "views") } 
-    use Rack::Flash 
     
   
-    unless ENV['REQUIRE_AUTHENTICATION'].nil?
+    if ENV['REQUIRE_AUTHENTICATION']
       ['*/push/*','*/login','*/logout', '*.js', '/*.css' ].each do |p|
         before p do 
           skip_authentication 
@@ -50,6 +52,8 @@ module StompBox
       before do 
         require_authentication 
       end
+    else
+      puts "ENV['REQUIRE_AUTHENTICATION'] is not set, *disabling* authentication" if ENV['REQUIRE_AUTHENTICATION'].nil?
     end
   
     post '/deploy' do
@@ -68,7 +72,6 @@ module StompBox
     
     # Post a deployment
     post '/push/:api_key' do
-      puts params[:payload].inspect
       if params[:payload] && (params[:api_key] == config('api_key'))
         push = Push.create(:payload=>params[:payload], :created_at=>Time.now)
         push.save if push
@@ -82,19 +85,6 @@ module StompBox
       haml :'pushes/index'
     end
   
-    get '/login' do
-      haml :'sessions/new'
-    end
-  
-    post '/login' do
-      flash[:notice] = "Bad credentials. Try again?" unless authenticate( params[:user], params[:password] )
-      redirect to('/')
-    end
-  
-    get '/logout' do
-      logout
-    end
-    
     get '/repositories' do
       repositories 
       haml :'repositories/index'
@@ -133,6 +123,19 @@ module StompBox
       scss :styles
     end
   
+    get '/login' do
+      haml :'sessions/new'
+    end
+  
+    post '/login' do
+      flash[:notice] = "Bad credentials. Try again?" unless authenticate( params[:user], params[:password] )
+      redirect to('/')
+    end
+  
+    get '/logout' do
+      logout
+    end
+    
     run! if app_file == $0
   end
 end 
