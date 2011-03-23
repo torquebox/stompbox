@@ -81,9 +81,9 @@ Here's one one way to generate a key.
 
 StompBox uses the built-in JAAS authentication provided by JBoss and exposed
 via TorqueBox.  If this is a development system (it probably should be), the
-simplest way to set usernames and passwords is to use the rake task.
+simplest way to set usernames and passwords is to use the builtin rake task.
 
-    $ rake set_env username:password
+    $ rake torquebox:auth:adduser username:password
 
 Be sure to set REQUIRE_AUTHENTICATION in config/torquebox.yml as well.
 Voilá, authentication is enabled.
