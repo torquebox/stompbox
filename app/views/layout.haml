@@ -3,9 +3,17 @@
   %head
     %meta{:charset=>"utf-8"}
     %title Stomp Box 
-    %link{:rel=>"stylesheet", :type=>"text/css", :href=>"html5reset.css"}
-    %link{:rel=>"stylesheet", :type=>"text/css", :href=>"styles.css"}
+    %link{:rel=>"stylesheet", :type=>"text/css", :href=>"#{to('css/html5reset.css')}"}
+    %link{:rel=>"stylesheet", :type=>"text/css", :href=>"#{to('css/styles.css')}"}
+    %link{:rel=>"stylesheet", :type=>"text/css", :href=>"#{to('css/facebox.css')}"}
     %script{:src=>"https://ajax.googleapis.com/ajax/libs/jquery/1.5.0/jquery.min.js"}
+    %script{:src=>"#{to('javascript/facebox.js')}"}
+    :javascript
+      $.facebox.settings.closeImage = "#{to('/images/closelabel.png')}"
+      $.facebox.settings.loadingImage = "#{to('/images/loading.gif')}"
+      jQuery(document).ready(function($) { $('a[rel*=facebox]').facebox() })
+      
+      
 
     /[if IE]
       %script{:src=>"http://html5shiv.googlecode.com/svn/trunk/html5.js"}
@@ -38,3 +46,4 @@
       %footer#footer
         This software brought to you by 
         %a{:href=>'http://projectodd.org'} project : odd
+

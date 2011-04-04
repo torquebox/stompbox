@@ -1,7 +1,11 @@
 %h1 Repositories
+
 .repositories
   - if @repositories
-    -@repositories.each do |repo|
+    - if @repositories.empty?
+      %h2 You Haven't Setup Any Repositories Yet
+
+    - @repositories.each do |repo|
       .repository
         %h3= "#{repo.name} : #{repo.branch}"
         %p
@@ -19,8 +23,10 @@
               %input{:type=>:submit, :value=>:update}
 
             %a.toggle{:href=>'#'} Cancel
+    .new-repository-link.action
+      %a{:href=>'#new-repository', :rel=>'facebox'} New Repository
 
-.new-repository
+#new-repository{:style=>'display:none'}
   %h2 Add a new repository
   %form{:action=>'repositories', :method=>:post}
     =haml :'repositories/form'

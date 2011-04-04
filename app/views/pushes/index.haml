@@ -1,18 +1,5 @@
 %h1 Dashboard 
 
-.config
-  %h2 Repositories Managed
-  .repositories
-    - repositories.each do |repo| 
-      .repository
-        %h3= repo.name
-        %a.repo-toggle{:href=>'#', :class=>repo.id}= "#{repo.branch} &rarr;"
-        :javascript
-          $('.#{repo.id}.repo-toggle').click(function() { 
-            $('.#{classify(repo.name)}.#{classify(repo.branch)}').toggle();
-            return false; });
-
-
 - if @pushes
   %h2 Pushes Received
   .pushes

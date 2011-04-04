@@ -47,7 +47,6 @@ module StompBox
     enable :sessions, :logging, :method_override 
     set :root, Proc.new { File.expand_path(File.dirname(__FILE__)) }
     set :views, Proc.new { File.join(File.dirname(__FILE__), "app", "views") } 
-    
   
     if ENV['REQUIRE_AUTHENTICATION']
       ['*/push/*','*/login','*/logout', '*.js', '/*.css' ].each do |p|
@@ -121,13 +120,13 @@ module StompBox
     end
     
     # Stylesheets - reset
-    get '/html5reset.css' do
-      sass :html5reset
+    get '/css/html5reset.css' do
+      sass :'/css/html5reset'
     end
     
     # App stylesheet
-    get '/styles.css' do
-      scss :styles
+    get '/css/styles.css' do
+      scss :'/css/styles'
     end
   
     get '/login' do
