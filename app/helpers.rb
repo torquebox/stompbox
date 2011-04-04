@@ -26,6 +26,11 @@ module StompBox
       def home_path
         request.script_name
       end
+
+      def push_path
+        port = request.port == 80 ? "" : ":#{request.port}"
+        request.scheme + "://" + request.host + port + to( "push/#{config('API_KEY')}" )
+      end
   
       def to(location)
         location.gsub!(/^\//, '')

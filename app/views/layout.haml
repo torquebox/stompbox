@@ -27,12 +27,15 @@
           \|
           %a{:href=>to("repositories")} Repositories
           \|
-          - push_path = to( "push/#{config('API_KEY')}" )
-          %a{:href=>push_path}
+          %a{:href=>"#push-popup", :rel=>'facebox'}
             GitHub Push URL
           - if ENV['REQUIRE_AUTHENTICATION']
             \|
             %a{:href=>to("logout")} Logout
+
+        #push-popup{:style=>'display:none'}
+          #push-url= push_path
+
         %h1 TorqueBox::StompBox
 
 
