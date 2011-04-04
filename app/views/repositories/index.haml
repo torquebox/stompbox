@@ -10,19 +10,19 @@
         %h3= "#{repo.name} : #{repo.branch}"
         %p
           .panel
-            %input.toggle{:type=>:submit, :value=>:change}
+            %a{:href=>"#repo-#{repo.id}", :rel=>'facebox'} change
             or 
             %form{:action=>"repositories/#{repo.id}", :method=>:post}
               %input{:type=>:hidden, :name=>:_method, :value=>:delete}
               %input.delete{:type=>:submit, :value=>:delete}
 
-          .panel{:style=>'display:none'}
+          .panel{:style=>'display:none', :id=>"repo-#{repo.id}"}
             %form{:action=>"repositories/#{repo.id}", :method=>:post}
               = haml :'repositories/form', :locals => { :repository => repo }
               %input{:type=>:hidden, :name=>:_method, :value=>:put}
-              %input{:type=>:submit, :value=>:update}
+              %br
+              %input{:type=>:submit, :value=>:update, :style=>'margin-top:15px'}
 
-            %a.toggle{:href=>'#'} Cancel
     .new-repository-link.action
       %a{:href=>'#new-repository', :rel=>'facebox'} New Repository
 
@@ -36,7 +36,3 @@
 :javascript
   $('.panel .delete').click(function(e) {
     alert("Are you sure you want to do this? It can't be undone.") });
-  $('.panel .toggle').click(function(e) { 
-    $(e.target).parent('.panel').toggle();
-    $(e.target).parent('.panel').siblings('.panel').toggle();
-    return false; });
