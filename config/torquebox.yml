@@ -5,11 +5,9 @@ web:
   context: /stompbox
 
 environment:
+#  Sample configuration options
 #  AUTO_MIGRATE: true
-  DATABASE_URL: postgres://stompbox:stompbox@localhost/stompbox
-  DEPLOYMENTS: /opt/deployments
-  REQUIRE_AUTHENTICATION: true
-
-  # Change this!
-  API_KEY: 3821A95D456134214FAD6FA91A2BAFE574D47151
+#  DATABASE_URL: postgres://stompbox:stompbox@localhost/stompbox
+#  DEPLOYMENTS: /opt/deployments
+#  API_KEY: 3821A95D456134214FAD6FA91A2BAFE574D47151
 

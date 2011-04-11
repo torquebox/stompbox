@@ -21,6 +21,11 @@ gem 'dm-observer'
 
 gem 'torquebox'
 
+group :development do
+  gem 'thor'
+  gem 'jeweler'
+end
+
 group :test do
   gem 'rspec'
   gem 'rack-test'

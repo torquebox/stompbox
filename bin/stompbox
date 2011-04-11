@@ -1,0 +1,116 @@
+#!/usr/bin/env jruby
+#-*-ruby-*-
+#
+# Copyright 2011 Red Hat, Inc.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+require 'thor'
+require 'torquebox-rake-support'
+
+class StompBoxCommand < Thor
+
+  DEPLOYMENT_NAME = 'stompbox-knob.yml'
+  DATABASE_URL    = 'postgres://stompbox:stompbox@localhost/stompbox'
+  DEPLOYMENTS     = '/opt/deployments'
+
+  desc "deploy [--secure=username:password[,username:password]*] [--auto-migrate] [--db-url=url] [--deployments=/path/to/deployments] [--api-key=yourapikey]", "Deploys StompBox to $TORQUEBOX_HOME/apps"
+  method_option :secure, :type => :hash, :default => nil
+  method_option :'auto-migrate', :type=>:boolean, :default => true
+  method_option :'db-url', :type=>:string, :default => DATABASE_URL
+  method_option :'deployments', :type => :string, :default => DEPLOYMENTS
+  method_option :'api-key', :type => :string
+  def deploy
+    check
+    root = File.expand_path( File.join( File.dirname( __FILE__ ), '..' ) )
+    descriptor = TorqueBox::DeployUtils.basic_deployment_descriptor( :root => root,
+                                                                     :env => 'production' )
+    descriptor['environment'] = {}
+
+    if options[:secure]
+      descriptor['environment']['REQUIRE_AUTHENTICATION'] = true 
+      credentials = []
+      options[:secure].each do |user, pass|
+        credentials << [user, pass]
+      end
+      prop_file = TorqueBox::DeployUtils.write_credentials( credentials )
+      puts ">> INFO: Wrote user/password entries to #{prop_file}"
+    else
+      puts ">> WARNING: deploying StompBox with no security - use the --secure=username:password option to secure it"
+    end
+
+    if options[:'auto-migrate']
+      descriptor['environment']['AUTO_MIGRATE'] = true
+      puts ">> INFO: Configuring database for auto-migrations."
+    else
+      puts ">> WARNING: database not configured for auto-migration."
+    end
+
+    if options[:'db-url']
+      descriptor['environment']['DATABASE_URL'] = options[:'db-url']
+      puts ">> INFO: Using database URL: #{options[:'db-url']}"
+    else
+      puts ">> INFO: Using default database URL: #{DATABASE_URL}"
+    end
+
+    if options[:deployments]
+      descriptor['environment']['DEPLOYMENTS'] = options[:deployments]
+      puts ">> INFO: Using deployments path: #{options[:deployments]}"
+    else
+      puts ">> INFO: Using default deployments path: #{DEPLOYMENTS}"
+    end
+
+    if options[:'api-key']
+      descriptor['environment']['API_KEY'] = options[:'api-key']
+      puts ">> INFO: Using user-supplied API Key"
+    else
+      descriptor['environment']['API_KEY'] = generate_api_key
+      puts ">> INFO: Generated random API key."
+    end
+
+    name, dir = TorqueBox::DeployUtils.deploy_yaml( descriptor, DEPLOYMENT_NAME )
+    
+    puts ">> Deployed #{name} to #{dir}"
+  end
+
+  desc "undeploy", "Removes StompBox from $TORQUEBOX_HOME/apps"
+  def undeploy
+    check
+    name, dir = TorqueBox::DeployUtils.undeploy( DEPLOYMENT_NAME )
+    puts ">> Undeployed #{name} from #{dir}"
+  end
+
+  desc "info", "Prints info about StompBox's status"
+  def info
+    check
+    path = File.join( ENV['TORQUEBOX_HOME'], 'apps', DEPLOYMENT_NAME )
+    if File.exists?( path )
+      puts ">> StompBox deployed to #{path}"
+    else
+      puts ">> StompBox is not deployed"
+    end
+  end
+
+  protected
+  def check
+    raise Exception.new("$TORQUEBOX_HOME must be set") unless ENV['TORQUEBOX_HOME']
+  end
+
+  def generate_api_key(size = 40)
+    charset = %w{ 2 3 4 6 7 9 A C D E F G H J K L M N P Q R T V W X Y Z}
+    (0...size).map{ charset.to_a[rand(charset.size)] }.join
+  end
+  
+end
+
+StompBoxCommand.start
