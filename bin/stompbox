@@ -26,7 +26,7 @@ class StompBoxCommand < Thor
 
   desc "deploy [--secure=username:password[,username:password]*] [--auto-migrate] [--db-url=url] [--deployments=/path/to/deployments] [--api-key=yourapikey]", "Deploys StompBox to $TORQUEBOX_HOME/apps"
   method_option :secure, :type => :hash, :default => nil
-  method_option :'auto-migrate', :type=>:boolean, :default => true
+  method_option :'auto-migrate', :type=>:boolean, :default => false
   method_option :'db-url', :type=>:string, :default => DATABASE_URL
   method_option :'deployments', :type => :string, :default => DEPLOYMENTS
   method_option :'api-key', :type => :string
