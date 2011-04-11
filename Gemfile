@@ -13,11 +13,12 @@ gem 'json_pure'
 gem 'state_machine'
 gem 'git'
 
-gem 'dm-core'
-gem 'dm-postgres-adapter'
-gem 'dm-migrations'
-gem 'dm-timestamps'
-gem 'dm-observer'
+gem 'data_mapper', '~>1.1'
+gem 'dm-core', '~>1.1'
+gem 'dm-postgres-adapter', '~>1.1'
+gem 'dm-migrations', '~>1.1'
+gem 'dm-timestamps', '~>1.1'
+gem 'dm-observer', '~>1.1'
 
 gem 'torquebox'
 

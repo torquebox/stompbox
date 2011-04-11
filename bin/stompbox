@@ -36,6 +36,7 @@ class StompBoxCommand < Thor
     descriptor = TorqueBox::DeployUtils.basic_deployment_descriptor( :root => root,
                                                                      :env => 'production' )
     descriptor['environment'] = {}
+    descriptor['web']         = {'context'=>'/stompbox'}
 
     if options[:secure]
       descriptor['environment']['REQUIRE_AUTHENTICATION'] = true 
