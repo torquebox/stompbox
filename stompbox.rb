@@ -44,9 +44,10 @@ module StompBox
     use Rack::Flash 
 
 
-    enable :sessions, :logging, :method_override 
-    set :root, Proc.new { File.expand_path(File.dirname(__FILE__)) }
-    set :views, Proc.new { File.join(File.dirname(__FILE__), "app", "views") } 
+    enable :sessions, :logging, :method_override, :static
+    set :public, Proc.new { File.join(root, "public") }
+    set :root,   Proc.new { File.expand_path(File.dirname(__FILE__)) }
+    set :views,  Proc.new { File.join(File.dirname(__FILE__), "app", "views") } 
   
     if ENV['REQUIRE_AUTHENTICATION']
       ['*/push/*','*/login','*/logout', '*.js', '/*.css' ].each do |p|
