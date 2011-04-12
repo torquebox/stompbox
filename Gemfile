@@ -8,6 +8,10 @@ gem "sinatra", "1.1.2"
 gem "sinatra-reloader", "0.5.0"
 gem "rack-flash", "0.1.1"
 
+# odd, but this is required by monkey-lib which is required by rack session
+# cookies, but doesn't get installed unless we're explicit about it
+gem "extlib" 
+
 gem 'haml', '~>3.0'
 gem 'json_pure'
 gem 'state_machine'
