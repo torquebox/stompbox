@@ -1,3 +1,4 @@
 *.swp
 .bundle/*
 config/stompbox.yml
+pkg/*

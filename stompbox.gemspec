@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Lance Ball"]
-  s.date = %q{2011-04-11}
+  s.date = %q{2011-04-12}
   s.default_executable = %q{stompbox}
   s.description = %q{StompBox - Git-based deployment console for TorqueBox}
   s.email = %q{lball@redhat.com}
@@ -34,6 +34,8 @@ Gem::Specification.new do |s|
     "app/views/repositories/form.haml",
     "app/views/repositories/index.haml",
     "app/views/sessions/new.haml",
+    "bin/dbsetup",
+    "bin/stompbox",
     "config.ru",
     "stompbox.rb"
   ]
@@ -57,15 +59,17 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<sinatra>, ["= 1.1.2"])
       s.add_runtime_dependency(%q<sinatra-reloader>, ["= 0.5.0"])
       s.add_runtime_dependency(%q<rack-flash>, ["= 0.1.1"])
+      s.add_runtime_dependency(%q<extlib>, [">= 0"])
       s.add_runtime_dependency(%q<haml>, ["~> 3.0"])
       s.add_runtime_dependency(%q<json_pure>, [">= 0"])
       s.add_runtime_dependency(%q<state_machine>, [">= 0"])
       s.add_runtime_dependency(%q<git>, [">= 0"])
-      s.add_runtime_dependency(%q<dm-core>, [">= 0"])
-      s.add_runtime_dependency(%q<dm-postgres-adapter>, [">= 0"])
-      s.add_runtime_dependency(%q<dm-migrations>, [">= 0"])
-      s.add_runtime_dependency(%q<dm-timestamps>, [">= 0"])
-      s.add_runtime_dependency(%q<dm-observer>, [">= 0"])
+      s.add_runtime_dependency(%q<data_mapper>, ["~> 1.1"])
+      s.add_runtime_dependency(%q<dm-core>, ["~> 1.1"])
+      s.add_runtime_dependency(%q<dm-postgres-adapter>, ["~> 1.1"])
+      s.add_runtime_dependency(%q<dm-migrations>, ["~> 1.1"])
+      s.add_runtime_dependency(%q<dm-timestamps>, ["~> 1.1"])
+      s.add_runtime_dependency(%q<dm-observer>, ["~> 1.1"])
       s.add_runtime_dependency(%q<torquebox>, [">= 0"])
       s.add_development_dependency(%q<thor>, [">= 0"])
       s.add_development_dependency(%q<jeweler>, [">= 0"])
@@ -77,15 +81,17 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<sinatra>, ["= 1.1.2"])
       s.add_dependency(%q<sinatra-reloader>, ["= 0.5.0"])
       s.add_dependency(%q<rack-flash>, ["= 0.1.1"])
+      s.add_dependency(%q<extlib>, [">= 0"])
       s.add_dependency(%q<haml>, ["~> 3.0"])
       s.add_dependency(%q<json_pure>, [">= 0"])
       s.add_dependency(%q<state_machine>, [">= 0"])
       s.add_dependency(%q<git>, [">= 0"])
-      s.add_dependency(%q<dm-core>, [">= 0"])
-      s.add_dependency(%q<dm-postgres-adapter>, [">= 0"])
-      s.add_dependency(%q<dm-migrations>, [">= 0"])
-      s.add_dependency(%q<dm-timestamps>, [">= 0"])
-      s.add_dependency(%q<dm-observer>, [">= 0"])
+      s.add_dependency(%q<data_mapper>, ["~> 1.1"])
+      s.add_dependency(%q<dm-core>, ["~> 1.1"])
+      s.add_dependency(%q<dm-postgres-adapter>, ["~> 1.1"])
+      s.add_dependency(%q<dm-migrations>, ["~> 1.1"])
+      s.add_dependency(%q<dm-timestamps>, ["~> 1.1"])
+      s.add_dependency(%q<dm-observer>, ["~> 1.1"])
       s.add_dependency(%q<torquebox>, [">= 0"])
       s.add_dependency(%q<thor>, [">= 0"])
       s.add_dependency(%q<jeweler>, [">= 0"])
@@ -98,15 +104,17 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<sinatra>, ["= 1.1.2"])
     s.add_dependency(%q<sinatra-reloader>, ["= 0.5.0"])
     s.add_dependency(%q<rack-flash>, ["= 0.1.1"])
+    s.add_dependency(%q<extlib>, [">= 0"])
     s.add_dependency(%q<haml>, ["~> 3.0"])
     s.add_dependency(%q<json_pure>, [">= 0"])
     s.add_dependency(%q<state_machine>, [">= 0"])
     s.add_dependency(%q<git>, [">= 0"])
-    s.add_dependency(%q<dm-core>, [">= 0"])
-    s.add_dependency(%q<dm-postgres-adapter>, [">= 0"])
-    s.add_dependency(%q<dm-migrations>, [">= 0"])
-    s.add_dependency(%q<dm-timestamps>, [">= 0"])
-    s.add_dependency(%q<dm-observer>, [">= 0"])
+    s.add_dependency(%q<data_mapper>, ["~> 1.1"])
+    s.add_dependency(%q<dm-core>, ["~> 1.1"])
+    s.add_dependency(%q<dm-postgres-adapter>, ["~> 1.1"])
+    s.add_dependency(%q<dm-migrations>, ["~> 1.1"])
+    s.add_dependency(%q<dm-timestamps>, ["~> 1.1"])
+    s.add_dependency(%q<dm-observer>, ["~> 1.1"])
     s.add_dependency(%q<torquebox>, [">= 0"])
     s.add_dependency(%q<thor>, [">= 0"])
     s.add_dependency(%q<jeweler>, [">= 0"])

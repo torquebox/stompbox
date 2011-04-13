@@ -1,0 +1,97 @@
+#!/bin/sh
+NAME="$(basename $0)"
+
+function success_or_failure() {
+  if [ $RETVAL -eq 0 ]; then
+    echo "Success"
+  else
+    echo "Failure"
+  fi
+  echo
+}
+
+function setup_database_user() {
+  psql -U postgres -c '\du stompbox' | grep stompbox > /dev/null
+  if [ $? != 0 ] ; then 
+    echo " - Create database user 'stompbox'"
+    RETVAL=0
+    psql -U postgres -q -c "create user stompbox password 'stompbox' createdb"
+    RETVAL=$?
+    success_or_failure
+  else
+    echo " - Database user 'stompbox' already exists"
+    RETVAL=0
+    success_or_failure
+  fi
+}
+
+function remove_database_user() {
+  psql -U postgres -c '\du stompbox' | grep stompbox > /dev/null
+  if [ $? == 0 ] ; then 
+    echo " - Remove database user 'stompbox'"
+    RETVAL=0
+    psql -U postgres -q -c "drop user stompbox" > /dev/null
+    RETVAL=$?
+    success_or_failure
+  else
+    echo " - No database user 'stompbox' to remove"
+    RETVAL=0
+    success_or_failure
+  fi
+}
+
+function setup_database() {
+  psql -U postgres -l | grep stompbox > /dev/null
+  if [ $? != 0 ] ; then
+    echo " - Create database 'stompbox'"
+    RETVAL=0
+    psql -U postgres -q -c "create database stompbox owner stompbox encoding 'utf8'"
+    RETVAL=$?
+    success_or_failure
+  else
+    echo " - Database 'stompbox' already exists"
+    RETVAL=0
+    success_or_failure
+  fi
+}
+
+function remove_database() {
+  psql -U postgres -l | grep stompbox > /dev/null
+  if [ $? == 0 ] ; then
+    echo " - Remove database 'stompbox'"
+    RETVAL=0
+    psql -U postgres -q -c "drop database stompbox" > /dev/null
+    RETVAL=$?
+    success_or_failure
+  else
+    echo " - No database 'stompbox' to remove"
+    RETVAL=0
+    success_or_failure
+  fi
+}
+
+install() {
+  setup_database_user
+  setup_database
+}
+
+uninstall() {
+  remove_database
+  remove_database_user
+}
+
+
+case "$1" in
+install)
+    install
+    ;;
+uninstall)
+    uninstall
+    ;;
+*)
+    echo "usage: ${NAME} (install|uninstall)"
+    exit 1
+esac
+
+exit $RETVAL
+

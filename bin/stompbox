@@ -24,12 +24,13 @@ class StompBoxCommand < Thor
   DATABASE_URL    = 'postgres://stompbox:stompbox@localhost/stompbox'
   DEPLOYMENTS     = '/opt/deployments'
 
-  desc "deploy [--secure=username:password[,username:password]*] [--auto-migrate] [--db-url=url] [--deployments=/path/to/deployments] [--api-key=yourapikey]", "Deploys StompBox to $TORQUEBOX_HOME/apps"
-  method_option :secure, :type => :hash, :default => nil
-  method_option :'auto-migrate', :type=>:boolean, :default => false
-  method_option :'db-url', :type=>:string, :default => DATABASE_URL
-  method_option :'deployments', :type => :string, :default => DEPLOYMENTS
-  method_option :'api-key', :type => :string
+  desc "deploy [--secure=username:password[,username:password]*] [--setup-db] [--auto-migrate] [--db-url=url] [--deployments=/path/to/deployments] [--api-key=yourapikey]", "Deploys StompBox to $TORQUEBOX_HOME/apps"
+  method_option :secure,           :type => :hash,      :default => nil
+  method_option :'setup-db',       :type => :boolean,   :default => false
+  method_option :'auto-migrate',   :type => :boolean,   :default => false
+  method_option :'db-url',         :type => :string,    :default => DATABASE_URL
+  method_option :'deployments',    :type => :string,    :default => DEPLOYMENTS
+  method_option :'api-key',        :type => :string
   def deploy
     check
     root = File.expand_path( File.join( File.dirname( __FILE__ ), '..' ) )
@@ -48,6 +49,11 @@ class StompBoxCommand < Thor
       puts ">> INFO: Wrote user/password entries to #{prop_file}"
     else
       puts ">> WARNING: deploying StompBox with no security - use the --secure=username:password option to secure it"
+    end
+
+    if options[:'setup-db']
+      setup
+      puts ">> INFO: Setting up database."
     end
 
     if options[:'auto-migrate']
@@ -82,6 +88,13 @@ class StompBoxCommand < Thor
     name, dir = TorqueBox::DeployUtils.deploy_yaml( descriptor, DEPLOYMENT_NAME )
     
     puts ">> Deployed #{name} to #{dir}"
+  end
+
+  desc "setup", "Sets up the StompBox database. Use on a new installation before deploying."
+  def setup
+    check
+    setup_script = File.expand_path( File.join( File.dirname( __FILE__ ), '..', 'bin', 'dbsetup'  ) )
+    sh "#{setup_script} install"
   end
 
   desc "undeploy", "Removes StompBox from $TORQUEBOX_HOME/apps"

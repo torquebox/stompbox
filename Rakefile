@@ -22,7 +22,7 @@ Jeweler::Tasks.new do |gem|
   gem.description = %Q{StompBox - Git-based deployment console for TorqueBox}
   gem.email = "lball@redhat.com"
   gem.authors = ["Lance Ball"]
-  gem.files = FileList["[A-Z]*.*", 'stompbox.rb', 'config.ru', 'bin/*.rb', "{app, config, javascript, public}/**/*"]
+  gem.files = FileList["[A-Z]*.*", 'stompbox.rb', 'config.ru', 'bin/*', "{app, config, javascript, public}/**/*"]
   gem.executables = %w{stompbox}
   # Include your dependencies below. Runtime dependencies are required when using your gem,
   # and development dependencies are only needed for development (ie running rake tasks, tests, etc)
