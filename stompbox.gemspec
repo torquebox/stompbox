@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Lance Ball"]
-  s.date = %q{2011-04-12}
+  s.date = %q{2011-04-15}
   s.default_executable = %q{stompbox}
   s.description = %q{StompBox - Git-based deployment console for TorqueBox}
   s.email = %q{lball@redhat.com}
@@ -70,10 +70,11 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<dm-migrations>, ["~> 1.1"])
       s.add_runtime_dependency(%q<dm-timestamps>, ["~> 1.1"])
       s.add_runtime_dependency(%q<dm-observer>, ["~> 1.1"])
-      s.add_runtime_dependency(%q<torquebox>, [">= 0"])
+      s.add_runtime_dependency(%q<torquebox>, ["= 1.0.0.CR1"])
       s.add_development_dependency(%q<thor>, [">= 0"])
       s.add_development_dependency(%q<jeweler>, [">= 0"])
       s.add_runtime_dependency(%q<thor>, ["> 0.14"])
+      s.add_runtime_dependency(%q<bundler>, [">= 1.0.12"])
       s.add_runtime_dependency(%q<torquebox-rake-support>, [">= 0"])
     else
       s.add_dependency(%q<bundler>, [">= 0"])
@@ -92,10 +93,11 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<dm-migrations>, ["~> 1.1"])
       s.add_dependency(%q<dm-timestamps>, ["~> 1.1"])
       s.add_dependency(%q<dm-observer>, ["~> 1.1"])
-      s.add_dependency(%q<torquebox>, [">= 0"])
+      s.add_dependency(%q<torquebox>, ["= 1.0.0.CR1"])
       s.add_dependency(%q<thor>, [">= 0"])
       s.add_dependency(%q<jeweler>, [">= 0"])
       s.add_dependency(%q<thor>, ["> 0.14"])
+      s.add_dependency(%q<bundler>, [">= 1.0.12"])
       s.add_dependency(%q<torquebox-rake-support>, [">= 0"])
     end
   else
@@ -115,10 +117,11 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<dm-migrations>, ["~> 1.1"])
     s.add_dependency(%q<dm-timestamps>, ["~> 1.1"])
     s.add_dependency(%q<dm-observer>, ["~> 1.1"])
-    s.add_dependency(%q<torquebox>, [">= 0"])
+    s.add_dependency(%q<torquebox>, ["= 1.0.0.CR1"])
     s.add_dependency(%q<thor>, [">= 0"])
     s.add_dependency(%q<jeweler>, [">= 0"])
     s.add_dependency(%q<thor>, ["> 0.14"])
+    s.add_dependency(%q<bundler>, [">= 1.0.12"])
     s.add_dependency(%q<torquebox-rake-support>, [">= 0"])
   end
 end

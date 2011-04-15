@@ -1,5 +1,5 @@
 source :rubygems
-source 'http://rubygems.torquebox.org'
+#source 'http://rubygems.torquebox.org'
 
 
 gem 'bundler'
@@ -24,7 +24,7 @@ gem 'dm-migrations', '~>1.1'
 gem 'dm-timestamps', '~>1.1'
 gem 'dm-observer', '~>1.1'
 
-gem 'torquebox'
+gem 'torquebox', '1.0.0.CR1'
 
 group :development do
   gem 'thor'

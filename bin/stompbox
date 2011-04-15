@@ -20,7 +20,7 @@ require 'torquebox-rake-support'
 
 class StompBoxCommand < Thor
 
-  DEPLOYMENT_NAME = 'stompbox-knob.yml'
+  DEPLOYMENT_NAME = 'torquebox-stompbox-knob.yml'
   DATABASE_URL    = 'postgres://stompbox:stompbox@localhost/stompbox'
   DEPLOYMENTS     = '/opt/deployments'
 
