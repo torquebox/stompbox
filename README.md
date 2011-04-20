@@ -1,12 +1,10 @@
 # StompBox : A Deployer for TorqueBox
 
 StompBox is a simple Sinatra app that can be used to manage deployments on
-[TorqueBox][torquebox] by accepting commit notifications from [GitHub][github].
+[TorqueBox][torquebox] by accepting post-commit POST-backs from [GitHub][github].
 It provides a user interface for managing one-click deployment and undeployment
 of your github repositories to TorqueBox for specific branches and commit
 points.
-
-## Why?
 
 StompBox is useful for testing and development environments where your code is
 changing frequently and you want to quickly deploy working branches and staging
@@ -18,35 +16,49 @@ such as messaging, scheduling, tasks, clustering and more.
 
 ## Installation
 
-If you don't already have a TorqueBox instance installed, you should do that
-first.  Head on over to the [TorqueBox][torquebox] web site and follow the
-detailed instructions for downloading, installing, configuring and running
-TorqueBox.  Don't worry - it's easy. 
+Installing StompBox is painless.
+
+### Prerequisites
+
+If you don't already have TorqueBox installed, you should do that first.  Head
+on over to the [TorqueBox][torquebox] web site and follow the detailed
+instructions for downloading, installing, configuring and running TorqueBox.
+Don't worry - it's easy. Or, if you want to just take us out for a quick spin
+around the block and kick the tires, use our [TorqueBox Appliance][appliance]
+(CR1 image id: ami-a8ca36c1). 
 
 StompBox hasn't been tested on Windows and may not work in that environment.
 However, if you are running a Unix-y system such as Fedora or Mac OSX, then you
 should be fine.  
 
-Once you've installed TorqueBox, clone the StompBox repository, install the
-gems, and deploy it to your running TorqueBox instance.
+StompBox uses PostgreSQL for persistent storage.  See the deployment
+instructions below for additional details.
 
-    $ git clone git@github.com:lance/stompbox.git
-    Cloning into stompbox...
-    remote: Counting objects: 187, done.
-    remote: Compressing objects: 100% (168/168), done.
-    remote: Total 187 (delta 108), reused 0 (delta 0)
-    Receiving objects: 100% (187/187), 22.96 KiB, done.
-    Resolving deltas: 100% (108/108), done.
+### Gem Install
 
-    $ cd stompbox && bundle install
-    <output clipped for brevity - you should see this at the end>
-    Your bundle is complete! It was installed into /path/to/gem/home
-    
-    $ rake torquebox:deploy
+StompBox is installed as a Ruby Gem:
+
+    $ jruby -S gem install torquebox-stompbox --pre
+
+The `--pre` flag is required until we have an official 1.0 release.  
+
+### Deployment
+
+Once you've installed the gem, you can deploy it.  Make sure you have
+`$TORQUEBOX_HOME` set and issue the following command:
+
+  $ jruby -S stompbox deploy --setup-db --auto-migrate --secure=username:password
+
+This will install StompBox in `$TORQUEBOX_HOME/apps`, create and initialize the
+database, and turn on JAAS authentication for StompBox with the username and
+password supplied.  You'll need to run this command as a user that has database
+create privileges in order for all of that setup magic to work correctly.
+
     
 ## Configuration
 
-Configuration options are found in config/torquebox.yml.  Here are some things
+Configuration options are found in
+`$TORQUEBOX_HOME/apps/torquebox-stompbox-knob.yml`.  Here are some things
 you'll want to pay attention to.
 
 * **DATABASE_URL** Provide a URI for connecting to your database.  By convention,
@@ -121,5 +133,6 @@ This project is very immature and there are many features which are outstanding 
 This software is distributed under an [MIT software license][license].
 
 [torquebox]: http://torquebox.org "TorqueBox"
+[appliance]: http://github.com/torquebox/torquebox-appliances "TorqueBox Appliances on GitHub"
 [github]: https://github.com "GitHub"
 [license]: 'LICENSE.txt' "MIT License"
