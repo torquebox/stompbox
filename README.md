@@ -47,7 +47,7 @@ The `--pre` flag is required until we have an official 1.0 release.
 Once you've installed the gem, you can deploy it.  Make sure you have
 `$TORQUEBOX_HOME` set and issue the following command:
 
-  $ jruby -S stompbox deploy --setup-db --auto-migrate --secure=username:password
+    $ jruby -S stompbox deploy --setup-db --auto-migrate --secure=username:password
 
 This will install StompBox in `$TORQUEBOX_HOME/apps`, create and initialize the
 database, and turn on JAAS authentication for StompBox with the username and
