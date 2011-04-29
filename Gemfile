@@ -24,7 +24,7 @@ gem 'dm-migrations', '~>1.1'
 gem 'dm-timestamps', '~>1.1'
 gem 'dm-observer', '~>1.1'
 
-gem 'torquebox', '1.0.0.CR2'
+gem 'torquebox', '1.0.0'
 
 group :development do
   gem 'thor'
