@@ -19,6 +19,7 @@ require 'state_machine'
 require 'dm-core'
 require 'dm-migrations'
 require 'dm-timestamps'
+require 'dm-types'
 
 class Push
   include DataMapper::Resource
@@ -118,6 +119,7 @@ class Repository
   property :id, Serial
   property :name, String
   property :branch, String
+  property :environment, Json
 
   def self.ordered
     Repository.all(:order => [:name, :branch])

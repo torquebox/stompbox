@@ -29,7 +29,7 @@ module StompBox
     end
    
     def authenticate(username, password)
-      return false if username.blank? || password.blank?
+      return false if username.nil? || password.nil?
       authenticator = TorqueBox::Authentication.default
       authenticator.authenticate(username, password) do
         session[:user] = username

@@ -81,7 +81,9 @@ you'll want to pay attention to.
   JBossAS.  See the **Authentication** section below for more information.
 
 * **API_KEY** This should be set to something unguessable like an SHA1 hash.
-  You can generate these any number of ways. 
+  If you deploy as a gem a random, 40 character string is generated for you.
+  If you install manually, you'll want to generate your own key.  You can
+  generate these any number of ways. 
   
 Here's one one way to generate a key.
 
@@ -126,7 +128,8 @@ request to your StompBox.  Play around.
 
 ## Caveats
 
-This project is very immature and there are many features which are outstanding (such as any real authentication).  You should **not** use it in a production environment.  It is currently used for research, development and testing only.  
+You should **not** use it in a production environment.  It is currently used
+for research, development and testing only.  
 
 ## License
 

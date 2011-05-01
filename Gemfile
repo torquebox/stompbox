@@ -13,6 +13,7 @@ gem "rack-flash", "0.1.1"
 gem "extlib" 
 
 gem 'haml', '~>3.0'
+gem 'sass', '~>3.1'
 gem 'json_pure'
 gem 'state_machine'
 gem 'git'
@@ -32,6 +33,8 @@ group :development do
 end
 
 group :test do
-  gem 'rspec'
+  gem 'rspec', :require => 'spec'
   gem 'rack-test'
+  gem 'sqlite3'
+  gem 'dm-sqlite-adapter'
 end

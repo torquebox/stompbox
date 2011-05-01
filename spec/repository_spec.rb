@@ -14,25 +14,19 @@
 # limitations under the License.
 #
 
-require 'rack/test'
-require 'stompbox'
+require 'spec_helper'
 
-# set test environment
-Sinatra::Base.set :environment, :test
-Sinatra::Base.set :run, false
-Sinatra::Base.set :raise_errors, true
-Sinatra::Base.set :logging, false
+module StompBox 
 
-DataMapper.setup(:default, "sqlite3::memory:")
+  describe Repository do
 
-def app
-  @app ||= StompBox::Application.new
+    it "should store env variables" do
+      environment = {:oauth_key=>'123', :oauth_secret=>'456'}
+      repository = Repository.new(:name=>'chirpr', :branch=>'master')
+      repository.environment = environment
+      repository.environment.should == environment
+    end
+  end
+
 end
-
-RSpec.configure do |conf|
-  conf.include Rack::Test::Methods
-  # reset database before each example is run
-  conf.before(:each) { DataMapper.auto_migrate! }
-end
-
-
+  
