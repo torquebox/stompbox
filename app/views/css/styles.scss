@@ -97,7 +97,18 @@ footer {
   margin-bottom: 20px;
 }
 
-form { display: inline-block; }
+form { 
+  display: inline-block; 
+  p {
+    margin-top: 15px;
+  }
+}
+
+textarea {
+  width: 420px;
+  height: 220px;
+  padding: 4px;
+}
 
 input[type=submit] {
   background-color: #ddd;

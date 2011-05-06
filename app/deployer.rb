@@ -52,7 +52,7 @@ class Deployer
   end
 
   def undeploy
-    TorqueBox::RakeUtils.undeploy( "#{repository_name}-knob.yml" )
+    TorqueBox::DeployUtils.undeploy( deployment_file )
     remove_repo if ( File.exist?( root ) )
     push.undeployed
   end
@@ -90,8 +90,26 @@ class Deployer
     @repo_name ||= push.master? ? push.repo_name : "#{push.repo_name}-#{push.branch}"
   end
 
+  def deployment_file
+    "#{repository_name}-knob.yml"
+  end
+
   def root
     "#{deployment_path}/#{repository_name}"
+  end
+
+  def write_descriptor
+    repo   = push.find_repository
+    if repo
+      config = push.find_repository.config
+      config ||= {}
+      config['application'] ||= {}
+      config['application']['root'] = root
+      config['application']['env'] ||= 'production'
+      descriptor = TorqueBox::DeployUtils.basic_deployment_descriptor(config)
+      descriptor.merge! config
+      TorqueBox::DeployUtils.deploy_yaml( descriptor, deployment_file )
+    end
   end
 
   protected
@@ -118,11 +136,6 @@ class Deployer
     else
       exec_cmd( "cd #{root} && #{jruby} -S rake rails:freeze:gems" )
     end
-  end
-
-  def write_descriptor
-    name, descriptor = deployment( repository_name, root, "/#{repository_name}" )
-    TorqueBox::RakeUtils.deploy_yaml( name, descriptor )
   end
 
   def path_to(file)

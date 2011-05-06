@@ -20,11 +20,10 @@ module StompBox
 
   describe Repository do
 
-    it "should store env variables" do
-      environment = {:oauth_key=>'123', :oauth_secret=>'456'}
-      repository = Repository.new(:name=>'chirpr', :branch=>'master')
-      repository.environment = environment
-      repository.environment.should == environment
+    it "should store config variables" do
+      config = {:oauth_key=>'123', :oauth_secret=>'456'}
+      repository = Repository.new(:name=>'chirpr', :branch=>'master', :config=>config)
+      repository.config.should == config
     end
   end
 

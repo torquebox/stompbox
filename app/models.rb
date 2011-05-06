@@ -93,6 +93,10 @@ class Push
     Push.all(:status=>:deployed)
   end
 
+  def find_repository
+    Repository.get(:name=>repo_name, :branch=>branch)
+  end
+
   protected
   def parse_payload
     @parsed_payload ||= JSON.parse(self.payload)
@@ -119,7 +123,7 @@ class Repository
   property :id, Serial
   property :name, String
   property :branch, String
-  property :environment, Json
+  property :config, Yaml
 
   def self.ordered
     Repository.all(:order => [:name, :branch])
