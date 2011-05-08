@@ -37,4 +37,8 @@ group :test do
   gem 'rack-test'
   gem 'sqlite3'
   gem 'dm-sqlite-adapter'
+  gem 'torquespec'
+  gem 'capybara'
+  gem 'akephalos'
 end
+  

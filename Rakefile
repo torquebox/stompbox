@@ -38,5 +38,13 @@ else
     t.pattern = 'spec/**/*.rb'
     t.rspec_opts = ['-cfs']
   end
+
+  desc "Run all integration specs"
+  RSpec::Core::RakeTask.new do |t|
+    t.pattern ='integration_spec/**/*.rb'
+    t.rspec_opts = ['-cfs']
+    t.name = "integs"
+  end
+
 end
 

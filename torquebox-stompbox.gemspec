@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{torquebox-stompbox}
-  s.version = "0.3.0"
+  s.version = "0.3.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Lance Ball"]
-  s.date = %q{2011-04-29}
+  s.date = %q{2011-05-06}
   s.default_executable = %q{stompbox}
   s.description = %q{StompBox - Git-based deployment console for TorqueBox}
   s.email = %q{lball@redhat.com}
@@ -46,6 +46,8 @@ Gem::Specification.new do |s|
   s.summary = %q{StompBox - Git-based deployment console for TorqueBox}
   s.test_files = [
     "spec/auth_spec.rb",
+    "spec/deployer_spec.rb",
+    "spec/repository_spec.rb",
     "spec/spec_helper.rb",
     "spec/stompbox_spec.rb"
   ]
@@ -61,6 +63,7 @@ Gem::Specification.new do |s|
       s.add_runtime_dependency(%q<rack-flash>, ["= 0.1.1"])
       s.add_runtime_dependency(%q<extlib>, [">= 0"])
       s.add_runtime_dependency(%q<haml>, ["~> 3.0"])
+      s.add_runtime_dependency(%q<sass>, ["~> 3.1"])
       s.add_runtime_dependency(%q<json_pure>, [">= 0"])
       s.add_runtime_dependency(%q<state_machine>, [">= 0"])
       s.add_runtime_dependency(%q<git>, [">= 0"])
@@ -84,6 +87,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<rack-flash>, ["= 0.1.1"])
       s.add_dependency(%q<extlib>, [">= 0"])
       s.add_dependency(%q<haml>, ["~> 3.0"])
+      s.add_dependency(%q<sass>, ["~> 3.1"])
       s.add_dependency(%q<json_pure>, [">= 0"])
       s.add_dependency(%q<state_machine>, [">= 0"])
       s.add_dependency(%q<git>, [">= 0"])
@@ -108,6 +112,7 @@ Gem::Specification.new do |s|
     s.add_dependency(%q<rack-flash>, ["= 0.1.1"])
     s.add_dependency(%q<extlib>, [">= 0"])
     s.add_dependency(%q<haml>, ["~> 3.0"])
+    s.add_dependency(%q<sass>, ["~> 3.1"])
     s.add_dependency(%q<json_pure>, [">= 0"])
     s.add_dependency(%q<state_machine>, [">= 0"])
     s.add_dependency(%q<git>, [">= 0"])
