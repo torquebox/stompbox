@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Lance Ball"]
-  s.date = %q{2011-05-06}
+  s.date = %q{2011-05-09}
   s.default_executable = %q{stompbox}
   s.description = %q{StompBox - Git-based deployment console for TorqueBox}
   s.email = %q{lball@redhat.com}
@@ -37,6 +37,11 @@ Gem::Specification.new do |s|
     "bin/dbsetup",
     "bin/stompbox",
     "config.ru",
+    "config/torquebox.yml",
+    "public/css/facebox.css",
+    "public/images/closelabel.png",
+    "public/images/loading.gif",
+    "public/javascript/facebox.js",
     "stompbox.rb"
   ]
   s.homepage = %q{http://github.com/torquebox/stompbox}
@@ -44,13 +49,6 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.5.1}
   s.summary = %q{StompBox - Git-based deployment console for TorqueBox}
-  s.test_files = [
-    "spec/auth_spec.rb",
-    "spec/deployer_spec.rb",
-    "spec/repository_spec.rb",
-    "spec/spec_helper.rb",
-    "spec/stompbox_spec.rb"
-  ]
 
   if s.respond_to? :specification_version then
     s.specification_version = 3
