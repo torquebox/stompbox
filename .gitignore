@@ -1,4 +1,5 @@
 *.swp
 .torquespec/*
 .bundle/*
+.sass-cache/*
 pkg/*
