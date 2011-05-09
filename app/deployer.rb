@@ -79,7 +79,7 @@ class Deployer
 
   # Hack to avoid problems with github responses using git gem over https
   def git_url
-    push.repo_url.sub('https://github.com/', 'git@github.com:')
+    push.repo_url.sub('https://github.com/', 'git://github.com/')
   end
 
   def deployment_path
@@ -131,10 +131,10 @@ class Deployer
     puts "Freezing gems"
     jruby = File.join( RbConfig::CONFIG['bindir'], RbConfig::CONFIG['ruby_install_name'] )
     if ( File.exist?( path_to('Gemfile') ) )
-      exec_cmd( "cd #{root} && #{jruby} -S bundle package" )
-      exec_cmd( "cd #{root} && #{jruby} -S bundle install --local --path vendor/bundle" )
+      `cd #{root} && #{jruby} -S bundle package`
+      `cd #{root} && #{jruby} -S bundle install --local --path vendor/bundle`
     else
-      exec_cmd( "cd #{root} && #{jruby} -S rake rails:freeze:gems" )
+      `cd #{root} && #{jruby} -S rake rails:freeze:gems`
     end
   end
 
@@ -142,26 +142,6 @@ class Deployer
     "#{root}/#{file}"
   end
 
-  def exec_cmd(cmd)
-    Open3.popen3( cmd ) do |stdin, stdout, stderr|
-      stdin.close
-      stdout_thr = Thread.new(stdout) {|stdout_io|
-        stdout_io.each_line do |l|
-          STDOUT.puts l
-          STDOUT.flush
-        end
-        stdout_io.close
-      }
-      stderr_thr = Thread.new(stderr) {|stderr_io|
-        stderr_io.each_line do |l|
-          STDERR.puts l
-          STDERR.flush
-        end
-      }
-      stdout_thr.join
-      stderr_thr.join
-    end
-  end
 end
 
 

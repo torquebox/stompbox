@@ -14,6 +14,8 @@
 # limitations under the License.
 #
 
+$: << File.join(File.dirname(__FILE__), '..')
+
 require 'torquebox-messaging'
 require 'deployer'
 require 'models'
