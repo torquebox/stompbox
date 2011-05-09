@@ -5,8 +5,8 @@
 %input{:type=>:text, :name=>'repository[branch]', :value=>repository.branch}
 %label{:for=>'repository[branch]'} Branch
 %p
-  %label{:for=>'repository[environment]'} TorqueBox configuration as YAML
+  %label{:for=>'repository[config]'} TorqueBox configuration as YAML
   %br
-  %textarea{:name=>'repository[environment]'}
-    =repository.environment
+  %textarea{:name=>'repository[config]'}
+    =repository.config
 
