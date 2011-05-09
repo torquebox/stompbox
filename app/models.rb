@@ -94,7 +94,7 @@ class Push
   end
 
   def find_repository
-    Repository.get(:name=>repo_name, :branch=>branch)
+    Repository.first(:name=>repo_name, :branch=>branch)
   end
 
   protected

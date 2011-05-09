@@ -37,6 +37,7 @@ class Deployer
   end
 
   def self.undeploy(push, async = true)
+    puts "Undeploying #{push.repo_name}/#{push.branch}"
     push.undeploy
     if async
       DeployerTask.async(:undeploy, :id=>push.id)
@@ -101,14 +102,15 @@ class Deployer
   def write_descriptor
     repo   = push.find_repository
     if repo
-      config = push.find_repository.config
-      config ||= {}
+      config = repo.config.nil? ? {} : YAML.load(repo.config)
       config['application'] ||= {}
       config['application']['root'] = root
       config['application']['env'] ||= 'production'
       descriptor = TorqueBox::DeployUtils.basic_deployment_descriptor(config)
       descriptor.merge! config
       TorqueBox::DeployUtils.deploy_yaml( descriptor, deployment_file )
+    else
+      puts "Unable to find repository #{push.repo_name}/#{push.branch}"
     end
   end
 
@@ -129,12 +131,10 @@ class Deployer
 
   def freeze_gems
     puts "Freezing gems"
-    jruby = File.join( RbConfig::CONFIG['bindir'], RbConfig::CONFIG['ruby_install_name'] )
-    if ( File.exist?( path_to('Gemfile') ) )
-      `cd #{root} && #{jruby} -S bundle package`
-      `cd #{root} && #{jruby} -S bundle install --local --path vendor/bundle`
-    else
-      `cd #{root} && #{jruby} -S rake rails:freeze:gems`
+    Dir.chdir( root ) do
+      jruby = File.join( RbConfig::CONFIG['bindir'], RbConfig::CONFIG['ruby_install_name'] )
+      jruby << " --1.9" if RUBY_VERSION =~ /^1\.9\./
+      exec_command( "#{jruby} -S bundle install --deployment" )
     end
   end
 
@@ -142,6 +142,28 @@ class Deployer
     "#{root}/#{file}"
   end
 
+  def exec_command(cmd)
+    IO.popen4( cmd ) do |pid, stdin, stdout, stderr|
+      stdin.close
+      [
+       Thread.new(stdout) {|stdout_io|
+         stdout_io.each_line do |l|
+           STDOUT.puts l
+           STDOUT.flush
+         end
+         stdout_io.close
+       },
+
+       Thread.new(stderr) {|stderr_io|
+         stderr_io.each_line do |l|
+           STDERR.puts l
+           STDERR.flush
+         end
+       }
+      ].each( &:join )
+    end
+  end
+  
 end
 
 
