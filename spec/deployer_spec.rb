@@ -22,9 +22,11 @@ module StompBox
     ENV['TORQUEBOX_HOME'] = './.apps'
 
     it "should write a YAML file" do
-      config = { 
-        'environment' => { 'oauth_key' => '123456789', 'oauth_secret' => '987654321' } 
-      }
+      config = <<C
+environment:
+  oauth_key: 123456789
+  oauth_secret: '987654321
+C
       repo = Repository.create(:name=>'github', :branch=>'master', :config=>config)
       push = Push.new(:payload=>payload)
       push.stub!(:find_repository).and_return(repo)
