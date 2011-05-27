@@ -31,6 +31,7 @@ class StompBoxCommand < Thor
   method_option :'db-url',         :type => :string,    :default => DATABASE_URL
   method_option :'deployments',    :type => :string,    :default => DEPLOYMENTS
   method_option :'api-key',        :type => :string
+
   def deploy
     check
     root = File.expand_path( File.join( File.dirname( __FILE__ ), '..' ) )
@@ -40,13 +41,12 @@ class StompBoxCommand < Thor
     descriptor['web']         = {'context'=>'/stompbox'}
 
     if options[:secure]
+      puts ">> INFO: Configuring stompbox authentication"
       descriptor['environment']['REQUIRE_AUTHENTICATION'] = true 
-      credentials = []
+      descriptor['auth'] = { 'default' => {'domain' => 'torquebox-torquebox-stompbox', 'credentials' => {} }}
       options[:secure].each do |user, pass|
-        credentials << [user, pass]
+        descriptor['auth']['default']['credentials'][user] = pass 
       end
-      prop_file = TorqueBox::DeployUtils.write_credentials( credentials )
-      puts ">> INFO: Wrote user/password entries to #{prop_file}"
     else
       puts ">> WARNING: deploying StompBox with no security - use the --secure=username:password option to secure it"
     end
@@ -97,7 +97,7 @@ class StompBoxCommand < Thor
     sh "#{setup_script} install"
   end
 
-  desc "undeploy", "Removes StompBox from $TORQUEBOX_HOME/apps"
+  desc "undeploy", "Undeploys StompBox"
   def undeploy
     check
     name, dir = TorqueBox::DeployUtils.undeploy( DEPLOYMENT_NAME )

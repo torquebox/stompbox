@@ -1,10 +1,7 @@
 application:
   rackup: config.ru
 
-web:
-  context: /stompbox
-
-environment:
+#environment:
 #  Sample configuration options
 #  AUTO_MIGRATE: true
 #  DATABASE_URL: postgres://stompbox:stompbox@localhost/stompbox

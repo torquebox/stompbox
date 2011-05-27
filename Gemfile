@@ -4,9 +4,9 @@ source :rubygems
 
 gem 'bundler'
 gem 'rake'
-gem "sinatra", "1.1.2"
-gem "sinatra-reloader", "0.5.0"
-gem "rack-flash", "0.1.1"
+gem "sinatra", "~>1.1.2"
+gem "sinatra-reloader", "~>0.5.0"
+gem "rack-flash", "~>0.1.1"
 
 # odd, but this is required by monkey-lib which is required by rack session
 # cookies, but doesn't get installed unless we're explicit about it
@@ -25,7 +25,7 @@ gem 'dm-migrations', '~>1.1'
 gem 'dm-timestamps', '~>1.1'
 gem 'dm-observer', '~>1.1'
 
-gem 'torquebox', '1.0.0'
+gem 'torquebox', '~>2.0'
 
 group :development do
   gem 'thor'
