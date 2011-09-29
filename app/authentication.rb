@@ -14,7 +14,6 @@
 # limitations under the License.
 #
 
-require 'torquebox'
 require 'torquebox-security'
 
 module StompBox

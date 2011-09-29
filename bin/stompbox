@@ -24,11 +24,9 @@ class StompBoxCommand < Thor
   DATABASE_URL    = 'postgres://stompbox:stompbox@localhost/stompbox'
   DEPLOYMENTS     = '/opt/deployments'
 
-  desc "deploy [--secure=username:password[,username:password]*] [--setup-db] [--auto-migrate] [--db-url=url] [--deployments=/path/to/deployments] [--api-key=yourapikey]", "Deploys StompBox to $TORQUEBOX_HOME/apps"
+  desc "deploy [--secure=username:password[,username:password]*] [--auto-migrate] [--deployments=/path/to/deployments] [--api-key=yourapikey]", "Deploys StompBox to $TORQUEBOX_HOME/apps"
   method_option :secure,           :type => :hash,      :default => nil
-  method_option :'setup-db',       :type => :boolean,   :default => false
   method_option :'auto-migrate',   :type => :boolean,   :default => false
-  method_option :'db-url',         :type => :string,    :default => DATABASE_URL
   method_option :'deployments',    :type => :string,    :default => DEPLOYMENTS
   method_option :'api-key',        :type => :string
 
@@ -51,23 +49,11 @@ class StompBoxCommand < Thor
       puts ">> WARNING: deploying StompBox with no security - use the --secure=username:password option to secure it"
     end
 
-    if options[:'setup-db']
-      setup
-      puts ">> INFO: Setting up database."
-    end
-
     if options[:'auto-migrate']
       descriptor['environment']['AUTO_MIGRATE'] = true
       puts ">> INFO: Configuring database for auto-migrations."
     else
       puts ">> WARNING: database not configured for auto-migration."
-    end
-
-    if options[:'db-url']
-      descriptor['environment']['DATABASE_URL'] = options[:'db-url']
-      puts ">> INFO: Using database URL: #{options[:'db-url']}"
-    else
-      puts ">> INFO: Using default database URL: #{DATABASE_URL}"
     end
 
     if options[:deployments]
@@ -90,12 +76,6 @@ class StompBoxCommand < Thor
     puts ">> Deployed #{name} to #{dir}"
   end
 
-  desc "setup", "Sets up the StompBox database. Use on a new installation before deploying."
-  def setup
-    check
-    setup_script = File.expand_path( File.join( File.dirname( __FILE__ ), '..', 'bin', 'dbsetup'  ) )
-    sh "#{setup_script} install"
-  end
 
   desc "undeploy", "Undeploys StompBox"
   def undeploy

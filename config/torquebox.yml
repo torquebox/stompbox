@@ -1,6 +1,9 @@
 application:
   rackup: config.ru
 
+web:
+  context: /stompbox
+
 #environment:
 #  Sample configuration options
 #  AUTO_MIGRATE: true

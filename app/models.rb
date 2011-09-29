@@ -14,12 +14,17 @@
 # limitations under the License.
 #
 
-require 'json'
-require 'state_machine'
 require 'dm-core'
 require 'dm-migrations'
 require 'dm-timestamps'
 require 'dm-types'
+require 'dm-infinispan-adapter'
+
+require 'json'
+require 'state_machine'
+
+require 'java'
+require 'jruby/core_ext'
 
 class Push
   include DataMapper::Resource
@@ -142,15 +147,7 @@ class DeploymentFile
 
 end
 
-database_url = ENV['DATABASE_URL']
-database_url ||= 'postgres://stompbox:stompbox@localhost/stompbox'
-
-DataMapper::Logger.new($stdout, :info)
-DataMapper.setup(:default, database_url)
+DataMapper::Logger.new($stderr, :info)
+DataMapper.setup(:default, :adapter=>'infinispan', :persist=>true)
 DataMapper::Model.raise_on_save_failure = true 
 DataMapper.finalize
-
-
-if ENV['AUTO_MIGRATE']
-  DataMapper.auto_upgrade!
-end

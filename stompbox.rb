@@ -31,11 +31,10 @@ require 'models'
 
 
 if ENV['RACK_ENV'].to_s == 'development'
-  puts "StompBox: DATABASE_URL = #{ENV['DATABASE_URL']}"
   puts "StompBox: DEPLOYMENTS  = #{ENV['DEPLOYMENTS']}"
-  puts "StompBox: AUTO_MIGRATE = #{ENV['AUTO_MIGRATE']}"
   puts "StompBox: API_KEY      = #{ENV['API_KEY']}"
 end
+
 
 module StompBox
 
@@ -89,6 +88,10 @@ module StompBox
     # List all deployments
     get '/' do
       @pushes = Push.all(:order => [ :created_at.desc ])
+      puts "GETTING PUSHES.  WHAT DO THEY LOOK LIKE? #{@pushes.inspect}"
+      @pushes.each do |push|
+        puts "GOT: #{push.inspect}"
+      end
       haml :'pushes/index'
     end
   
