@@ -1,7 +1,0 @@
-application:
-  root: /Users/lanceball/src/stompbox/integration_spec/..
-  env: test
-web:
-  context: /stompbox-test
-ruby:
-  version: 1.8

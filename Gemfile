@@ -18,6 +18,8 @@ gem 'json_pure', '~>1.4.6'
 gem 'state_machine'
 gem 'git'
 
+gem 'addressable', '~>2.2.6'
+
 #gem 'data_mapper', '~>1.1'
 gem 'dm-core', '~>1.1'
 gem 'dm-types', '~>1.1'
@@ -25,7 +27,11 @@ gem 'dm-migrations', '~>1.1'
 gem 'dm-timestamps', '~>1.1'
 gem 'dm-serializer', '~>1.1'
 
+gem 'torquebox', '~> 2.x.incremental'
+gem 'torquebox-vfs', '~> 2.x.incremental'
+gem 'torquebox-core', '~> 2.x.incremental'
 gem 'torquebox-rake-support', '~> 2.x.incremental'
+gem 'torquebox-messaging', '~> 2.x.incremental'
 gem 'torquebox-security', '~> 2.x.incremental'
 gem 'torquebox-cache', '~> 2.x.incremental'
 
@@ -36,8 +42,6 @@ end
 group :test do
   gem 'rspec', '~> 2.5.0', :require => 'spec'
   gem 'rack-test'
-  gem 'sqlite3'
-  gem 'dm-sqlite-adapter'
   gem 'torquespec'
   gem 'capybara'
   gem 'akephalos'

@@ -5,7 +5,7 @@ describe 'a basic test' do
   deploy <<-END.gsub( /^ {4}/, '' )
     application:
       root: #{File.dirname( __FILE__ )}/..
-      env: test
+    env: test
     web:
       context: /stompbox-test
     ruby:
@@ -14,6 +14,7 @@ describe 'a basic test' do
 
   it "should work" do
     visit "/stompbox-test"
+    puts page.body
     page.should have_content( 'Dashboard' )
   end
 end

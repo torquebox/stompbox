@@ -14,6 +14,8 @@
 # limitations under the License.
 #
 
+require 'java'
+require 'torquebox-cache'
 require 'rack/test'
 require 'stompbox'
 
@@ -23,7 +25,7 @@ Sinatra::Base.set :run, false
 Sinatra::Base.set :raise_errors, true
 Sinatra::Base.set :logging, false
 
-DataMapper.setup(:default, "sqlite3::memory:")
+DataMapper.setup(:default, :adapter=>'infinispan')
 
 def app
   @app ||= StompBox::Application.new
