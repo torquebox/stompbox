@@ -3,3 +3,4 @@
 .bundle/*
 .sass-cache/*
 pkg/*
+.rvmrc
