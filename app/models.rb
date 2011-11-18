@@ -18,7 +18,6 @@ require 'dm-core'
 require 'dm-migrations'
 require 'dm-timestamps'
 require 'dm-types'
-require 'dm-infinispan-adapter'
 
 require 'json'
 require 'state_machine'
@@ -148,6 +147,7 @@ class DeploymentFile
 end
 
 DataMapper::Logger.new($stderr, :info)
-DataMapper.setup(:default, :adapter=>'infinispan', :persist=>true)
+DataMapper.setup(:default, "sqlite3:stompbox.db")
 DataMapper::Model.raise_on_save_failure = true 
+DataMapper.auto_upgrade!
 DataMapper.finalize

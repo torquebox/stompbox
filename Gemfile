@@ -1,6 +1,6 @@
 source :rubygems
 #source 'http://rubygems.torquebox.org'
-source 'http://torquebox.org/2x/builds/LATEST/gem-repo/'
+#source 'http://torquebox.org/2x/builds/LATEST/gem-repo/'
 
 
 gem 'bundler'
@@ -20,20 +20,16 @@ gem 'git'
 
 gem 'addressable', '~>2.2.6'
 
-#gem 'data_mapper', '~>1.1'
 gem 'dm-core', '~>1.1'
 gem 'dm-types', '~>1.1'
 gem 'dm-migrations', '~>1.1'
 gem 'dm-timestamps', '~>1.1'
 gem 'dm-serializer', '~>1.1'
+gem 'dm-sqlite-adapter'
+gem 'sqlite3'
 
-gem 'torquebox', '~> 2.x.incremental'
-gem 'torquebox-vfs', '~> 2.x.incremental'
-gem 'torquebox-core', '~> 2.x.incremental'
-gem 'torquebox-rake-support', '~> 2.x.incremental'
-gem 'torquebox-messaging', '~> 2.x.incremental'
-gem 'torquebox-security', '~> 2.x.incremental'
-gem 'torquebox-cache', '~> 2.x.incremental'
+gem 'torquebox', '~> 2.0'
+gem 'torquebox-security', '~> 2.0'
 
 group :development do
   gem 'thor'
