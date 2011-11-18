@@ -14,41 +14,41 @@
 # limitations under the License.
 #
 
-require 'spec_helper'
+#require 'spec_helper'
 
-module StompBox 
+#module StompBox 
 
-  describe 'routes' do
+  #describe 'routes' do
 
-    before(:each) do
-      app.stub!(:require_authentication).and_return(true)
-    end
+    #before(:each) do
+      #app.stub!(:require_authentication).and_return(true)
+    #end
 
-    it "should respond to GET /"# do
-#      get '/'
-#      last_response.should be_ok
-#    end
+    #it "should respond to GET /"# do
+##      get '/'
+##      last_response.should be_ok
+##    end
 
-    it "should respond to GET /repositories" #do
-#      get '/repositories'
-#      last_response.should be_ok
-#    end
+    #it "should respond to GET /repositories" #do
+##      get '/repositories'
+##      last_response.should be_ok
+##    end
 
-    it "should respond to POST /repositories" do
-      post '/repositories'
-      last_response.should be_redirect
-    end
+    #it "should respond to POST /repositories" do
+      #post '/repositories'
+      #last_response.should be_redirect
+    #end
 
-    it "should respond to PUT /repositories" do
-      put '/repositories/1'
-      last_response.should be_redirect
-    end
+    #it "should respond to PUT /repositories" do
+      #put '/repositories/1'
+      #last_response.should be_redirect
+    #end
 
-    it "should respond to DELETE /repositories/:id" do
-      delete '/repositories/1'
-      last_response.should be_redirect
-    end
+    #it "should respond to DELETE /repositories/:id" do
+      #delete '/repositories/1'
+      #last_response.should be_redirect
+    #end
       
-  end
+  #end
 
-end
+#end

@@ -38,8 +38,7 @@ end
 
 group :test do
   gem 'rspec', '~> 2.5.0', :require => 'spec'
-  gem 'rack-test'
-  gem 'torquespec'
+  gem 'torquespec', '~> 0.4.6'
   gem 'capybara'
   gem 'akephalos'
 end
