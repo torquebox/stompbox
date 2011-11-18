@@ -15,24 +15,11 @@
 #
 
 require 'java'
-require 'torquebox-cache'
-require 'rack/test'
 require 'stompbox'
 
-# set test environment
-Sinatra::Base.set :environment, :test
-Sinatra::Base.set :run, false
-Sinatra::Base.set :raise_errors, true
-Sinatra::Base.set :logging, false
-
-DataMapper.setup(:default, :adapter=>'infinispan')
-
-def app
-  @app ||= StompBox::Application.new
-end
+DataMapper.setup(:default, 'sqlite3::memory:')
 
 RSpec.configure do |conf|
-  conf.include Rack::Test::Methods
   # reset database before each example is run
   conf.before(:each) { DataMapper.auto_migrate! }
 end

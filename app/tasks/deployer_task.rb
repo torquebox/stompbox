@@ -16,7 +16,7 @@
 
 $: << File.join(File.dirname(__FILE__), '..')
 
-require 'torquebox-messaging'
+require 'torquebox/messaging/task'
 require 'deployer'
 require 'models'
 

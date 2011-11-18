@@ -28,8 +28,9 @@ gem 'dm-serializer', '~>1.1'
 gem 'dm-sqlite-adapter'
 gem 'sqlite3'
 
-gem 'torquebox', '~> 2.0'
 gem 'torquebox-security', '~> 2.0'
+gem 'torquebox-messaging', '~> 2.0'
+gem 'torquebox-rake-support', '~> 2.0'
 
 group :development do
   gem 'thor'

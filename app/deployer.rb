@@ -19,7 +19,6 @@ require 'open3'
 require 'models'
 require 'torquebox-rake-support'
 require 'torquebox/rake/tasks'
-require 'app/tasks/deployer_task'
 
 ENV['DEPLOYMENTS'] ||= '/opt/deployments'
 
@@ -32,11 +31,13 @@ class Deployer
   end
 
   def self.deploy(push)
+    require 'app/tasks/deployer_task'
     push.deploy
     DeployerTask.async(:deploy, :id=>push.id)
   end
 
   def self.undeploy(push, async = true)
+    require 'app/tasks/deployer_task'
     puts "Undeploying #{push.repo_name}/#{push.branch}"
     push.undeploy
     if async

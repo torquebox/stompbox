@@ -4,3 +4,6 @@
 .sass-cache/*
 pkg/*
 .rvmrc
+integration_spec/.integ-knobs
+stompbox.db
+

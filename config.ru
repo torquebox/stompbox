@@ -1,3 +1,3 @@
-require 'stompbox'
+require 'application'
 
 run StompBox::Application
