@@ -14,7 +14,7 @@ TorqueSpec.knob_root = File.join( File.dirname( __FILE__ ), '.integ-knobs' )
 FileUtils.mkdir_p(TorqueSpec.knob_root) unless File.exist?(TorqueSpec.knob_root)
 
 Capybara.register_driver :akephalos do |app|
-  Capybara::Driver::Akephalos.new(app, :browser => :firefox_3)
+  Capybara::Driver::Akephalos.new(app, :browser => :firefox_3, :validate_scripts => false)
 end
 
 Capybara.default_driver = :akephalos
